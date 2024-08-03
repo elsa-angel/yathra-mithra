@@ -7,6 +7,10 @@ import TextInput from '@/Components/TextInput'
 import { Head, useForm } from '@inertiajs/react'
 import { PageProps } from '@/types'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import axios from 'axios'
+import { usePage } from '@inertiajs/react'
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
 
 // Define a type for the keys of the form data object
 type FormKey = 'name' | 'email' | 'message'
@@ -18,6 +22,23 @@ interface FormErrors {
 }
 
 export default function Contact({ auth }: PageProps) {
+  toastr.options = {
+    closeButton: true,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: 'toast-top-center',
+    preventDuplicates: false,
+    showDuration: 300,
+    hideDuration: 1000,
+    timeOut: 5000,
+    extendedTimeOut: 1000,
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut'
+  }
+
   const { data, setData, post, processing, errors, reset } = useForm({
     name: '',
     email: '',
@@ -61,7 +82,17 @@ export default function Contact({ auth }: PageProps) {
     setFormErrors(errors)
 
     if (!errors.name && !errors.email && !errors.message) {
-      post('/contact')
+      // const response = await post('/contact')
+      // alert((response as any).message)
+
+      const response = await axios.post('/contact', {
+        ...data
+      })
+      //debugger
+      //alert((response as any)?.data?.message)
+      Command: toastr['success']('Message Sent Successfully')
+
+      setData('message', '')
     }
   }
 
@@ -98,7 +129,6 @@ export default function Contact({ auth }: PageProps) {
                   />
                   <InputError message={formErrors.name} className='mt-2' />
                 </div>
-
                 <div>
                   <InputLabel htmlFor='email' value='Email' />
                   <TextInput
@@ -112,7 +142,6 @@ export default function Contact({ auth }: PageProps) {
                   />
                   <InputError message={formErrors.email} className='mt-2' />
                 </div>
-
                 <div>
                   <InputLabel htmlFor='message' value='Message' />
                   <textarea
@@ -126,7 +155,6 @@ export default function Contact({ auth }: PageProps) {
                   />
                   <InputError message={formErrors.message} className='mt-2' />
                 </div>
-
                 <div className='flex justify-end'>
                   <PrimaryButton disabled={processing}>
                     {processing ? 'Submitting...' : 'Submit'}
@@ -134,49 +162,64 @@ export default function Contact({ auth }: PageProps) {
                 </div>
               </div>
             </form>
-            <div className='sm:w-64 mt-8 sm:mt-0 flex justify-center mx-auto'>
-              <div className='flex flex-col justify-start'>
-                <div className='flex items-center mb-4'></div>
-                <div className='flex items-center mb-4'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='40'
-                    width='40'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path
-                      fillRule='evenodd'
-                      d='M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z'
-                      clipRule='evenodd'
-                    ></path>
-                  </svg>
-                  <span> 1234 Street, City, Country</span>
-                </div>
-                <div className='flex items-center mb-4'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='40'
-                    width='40'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z'></path>
-                    <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z'></path>
-                  </svg>
-                  <span> example@example.com</span>
-                </div>
-                <div className='flex items-center'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    height='40'
-                    width='40'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                  >
-                    <path d='M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z'></path>
-                  </svg>
-                  <span> +1234567890</span>
+            <div
+              className='sm:w-64 mt-8 sm:mt-0 flex justify-center mx-auto'
+              style={{ flex: '1' }}
+            >
+              <div
+                className='flex flex-col justify-start'
+                style={{ height: '100%' }}
+              >
+                <div className='border border-gray-300 dark:border-gray-700 rounded-lg p-4'>
+                  {/* Picture */}
+                  <img
+                    src='travel.webp'
+                    alt='Description of the image'
+                    className='w-full h-auto mb-4'
+                    style={{ width: '300px', height: '300px' }}
+                  />
+
+                  <div className='flex items-center mb-4'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      height='40'
+                      width='40'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z'
+                        clipRule='evenodd'
+                      ></path>
+                    </svg>
+                    <span> 1234 Street, City, Country </span>
+                  </div>
+                  <div className='flex items-center mb-4'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      height='40'
+                      width='40'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
+                      <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z'></path>
+                      <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z'></path>
+                    </svg>
+                    <span> example@example.com</span>
+                  </div>
+                  <div className='flex items-center'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      height='40'
+                      width='40'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
+                      <path d='M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z'></path>
+                    </svg>
+                    <span> +1234567890</span>
+                  </div>
                 </div>
               </div>
             </div>
