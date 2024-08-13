@@ -29,9 +29,18 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
-// Route::get('/search', function () {
-//     return Inertia::render('SearchBus');
-// })->name('search');
+Route::get('/schedule_list', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/searchg', function () {
+    return Inertia::render('ScheduleGuest');
+})->name('searchg');
+
+Route::get('/seats', function () {
+    return Inertia::render('SeatAvailability');
+})->name('seats');
+
 
 
 Route::get('/dashboard', function () {

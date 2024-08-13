@@ -13,7 +13,7 @@ class Message extends Model
      *
      * @var string
      */
-    // public $table = 'messages';
+    public $table = 'message';
 
     /**
      * The attributes that are mass assignable.

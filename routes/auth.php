@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ScheduleSearchController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -59,6 +60,8 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::post('contact', [MessageController::class, 'store'])->name('store');
+
+    Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
 
 
     // GET /users
