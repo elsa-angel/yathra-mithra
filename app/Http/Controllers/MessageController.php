@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
 class MessageController extends Controller
 {
     //
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -24,6 +24,12 @@ class MessageController extends Controller
             'message' => $request->message,
         ]);
 
-        return redirect()->back()->with('success', 'Message sent successfully!');
+        //dd(session('message'));
+        //dd(session()->all());
+
+        return response()->json(['message' => 'Message Sent Successfully'], 200);
+
     }
+
+
 }
