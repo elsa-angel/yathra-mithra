@@ -16,8 +16,7 @@ const ScheduleList = ({
     //     </h2>
     //   }
     // >
-    // <Head title='Booking Details' />
-
+    //   <Head title='Booking Details' />
     <div className='py-12'>
       <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
         <div className='bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg'>
@@ -51,16 +50,16 @@ const ScheduleList = ({
                         className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}
                       >
                         <td className='py-3 px-4 border-b border-gray-200'>
-                          {schedule.departure_city}
+                          {schedule.from}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
-                          {schedule.destination_city}
+                          {schedule.to}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
                           {schedule.duration}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
-                          ${schedule.fare}
+                          ₹{schedule.fare}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
                           <PrimaryButton className='ms-4'>
@@ -86,7 +85,8 @@ const ScheduleList = ({
         </div>
       </div>
     </div>
-    // </AuthenticatedLayout>
+    //{' '}
+    //</AuthenticatedLayout>
   )
 }
 

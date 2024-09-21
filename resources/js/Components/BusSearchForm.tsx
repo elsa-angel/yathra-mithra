@@ -49,14 +49,11 @@ export default function BusSearchForm({ auth } /*props here*/ : PageProps) {
 
     const response = await axios.post('/schedule_search', formData)
 
-    if (response?.data?.length) {
+    if (response?.data) {
       schedules = response.data
       setSchedulesAvailable(true)
+      navigate('/schedule_list')
     }
-
-    navigate('/schedule_list')
-
-    debugger
   }
 
   return (

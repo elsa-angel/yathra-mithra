@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Schedule;
-use Inertia\Inertia;
+use Carbon\Carbon;
 
 class ScheduleSearchController extends Controller
 {
     public function store(Request $request)
     {
-        // Validate the incoming request
+        // Validate the incoming requestcom
         $request->validate([
             'from' => 'required|string',
             'to' => 'required|string',
@@ -21,40 +21,80 @@ class ScheduleSearchController extends Controller
         // Retrieve the validated input data
         $data = $request->only(['from', 'to', 'date', 'time']);
 
-        // Fetch the schedules based on the form data
-        $schedules = Schedule::all();
+        $dayOfWeek = Carbon::parse($data['date'])->format('l'); // Get the day name
 
-        // foreach ($schedules as $schedule) {
-        //     // Do something with each $schedule
+        $schedules = Schedule::where(function ($query) use ($data) {
+            $query->where('stops', 'like', "%{$data['from']}%")
+                ->where('stops', 'like', "%{$data['to']}%");
+        })
+            ->where(function ($query) use ($dayOfWeek) {
+                $query->where('running_days', 'like', '%' . $dayOfWeek . '%');
+            })
+            ->where(function ($query) use ($data) {
+                // string of times like "08:00,10:00,12:00"
+                $query->where('stops_timings', 'like', "%{$data['time']}%");
+            })
+            // ->with('bus') // Eager load the bus relationship
+            ->get();
 
-        // }
-
-        // where('departure_city', $data['from'])
-        // ->where('destination_city', $data['to'])
-        // ->whereDate('departure_date', $data['date'])
-        // ->whereTime('departure_time', $data['time'])
-        // ->get()
-        // ->map(function ($schedule) {
-        //     // Format the schedule data as needed by your React component
-        //     return [
-        //         'departure_city' => $schedule->departure_city,
-        //         'destination_city' => $schedule->destination_city,
-        //         'departure_date' => $schedule->departure_date->format('Y-m-d'),
-        //         'departure_time' => $schedule->departure_time->format('H:i'),
-        //         'duration' => $schedule->duration,
-        //         'fare' => $schedule->fare,
-        //     ];
-        // });
-
-        // Return the data using Inertia
-        // return Inertia::render('ScheduleList', [
-        //     'auth' => [
-        //         'user' => auth()->user(),
-        //     ],
-        //     'schedules' => $schedules,
-        // ]);
+        // Transform the response to include only matching data
+        $response = $schedules->map(function ($schedule) use ($data) {
+            return [
+                'from' => $data['from'],
+                'to' => $data['to'],
+                'bus_id' => $schedule->bus_id,
+                'fare' => $schedule->fare,
+                'stops' => $schedule->stops,
+                'stops_timings' => $schedule->stops_timings,
+                'running_days' => $schedule->running_days,
+            ];
+        });
 
         return response()->json($schedules, 200);
 
     }
 }
+
+
+
+// Fetch the schedules based on the form data
+//$schedules = Schedule::all();
+
+// $schedules = Schedule::where(function ($query) use ($data) {
+//     $query->where('stops', 'LIKE', "%{$data['from']}%")
+//           ->where('stops', 'LIKE', "%{$data['to']}%");
+// })
+// ->with('bus')
+// ->get();
+
+// foreach ($schedules as $schedule) {
+//     // Do something with each $schedule
+
+// }
+
+// where('departure_city', $data['from'])
+// ->where('destination_city', $data['to'])
+// ->whereDate('departure_date', $data['date'])
+// ->whereTime('departure_time', $data['time'])
+// ->get()
+// ->map(function ($schedule) {
+//     // Format the schedule data as needed by your React component
+//     return [
+//         'departure_city' => $schedule->departure_city,
+//         'destination_city' => $schedule->destination_city,
+//         'departure_date' => $schedule->departure_date->format('Y-m-d'),
+//         'departure_time' => $schedule->departure_time->format('H:i'),
+//         'duration' => $schedule->duration,
+//         'fare' => $schedule->fare,
+//     ];
+// });
+
+// Return the data using Inertia
+// return Inertia::render('ScheduleList', [
+//     'auth' => [
+//         'user' => auth()->user(),
+//     ],
+//     'schedules' => $schedules,
+// ]);
+
+// dd($schedules);
