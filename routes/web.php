@@ -54,3 +54,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

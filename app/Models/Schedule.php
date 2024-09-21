@@ -15,6 +15,7 @@ class Schedule extends Model
         'fare',
         'stops',
         'stops_timings',
+        'stops_distance',
         'running_days'
     ];
 
@@ -23,4 +24,5 @@ class Schedule extends Model
     {
         return $this->belongsTo(Bus::class, 'bus_id');
     }
+
 }

@@ -19,6 +19,7 @@ class CreateScheduleTable extends Migration
             $table->integer('fare'); // Fare for each schedule
             $table->char('stops'); // Stops field
             $table->char('stops_timings'); // Stops timings field
+            $table->char('stops_distance');
             $table->char('running_days');
             $table->timestamps(); // Created at and updated at timestamps
 
