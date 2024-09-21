@@ -16,7 +16,6 @@ class CreateScheduleTable extends Migration
         Schema::create('schedule', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->unsignedBigInteger('bus_id'); // Foreign key to the bus table
-            $table->integer('fare'); // Fare for each schedule
             $table->char('stops'); // Stops field
             $table->char('stops_timings'); // Stops timings field
             $table->char('stops_distance');
