@@ -12,7 +12,6 @@ class Schedule extends Model
     // Define the fillable attributes
     protected $fillable = [
         'bus_id',
-        'fare',
         'stops',
         'stops_timings',
         'stops_distance',

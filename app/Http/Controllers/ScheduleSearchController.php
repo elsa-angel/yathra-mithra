@@ -43,14 +43,15 @@ class ScheduleSearchController extends Controller
                 'from' => $data['from'],
                 'to' => $data['to'],
                 'bus_id' => $schedule->bus_id,
-                'fare' => $schedule->fare,
+
                 'stops' => $schedule->stops,
                 'stops_timings' => $schedule->stops_timings,
+                'stops_distance' => $schedule->stops_distance,
                 'running_days' => $schedule->running_days,
             ];
         });
 
-        return response()->json($schedules, 200);
+        return response()->json($response, 200);
 
     }
 }

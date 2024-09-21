@@ -7,6 +7,37 @@ const ScheduleList = ({
   auth,
   schedules
 }: PageProps & { schedules: any[] }) => {
+  const getDuration = (schedule: any) => {
+    const indexOfFrom = schedule.stops.split(',').indexOf(schedule.from)
+    const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
+    schedule.stops_timings.split(',')
+    const arrivalTimeAtFrom = schedule.stops_timings.split(',')[indexOfFrom]
+    const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
+
+    return timeDifference(arrivalTimeAtFrom, arrivalTimeAtTo)
+  }
+
+  const timeDifference = (startTime: any, endTime: any) => {
+    const start: any = new Date(`1970-01-01T${startTime}`)
+    const end: any = new Date(`1970-01-01T${endTime}`)
+
+    const diffInMilliseconds = end - start
+
+    // Convert milliseconds to hours, minutes, seconds
+    const hours = Math.floor((diffInMilliseconds / (1000 * 60 * 60)) % 24)
+    const minutes = Math.floor((diffInMilliseconds / (1000 * 60)) % 60)
+    const seconds = Math.floor((diffInMilliseconds / 1000) % 60)
+
+    // prettier-ignore
+    let timeString = `${hours > 0 ? hours : minutes > 0 
+                        ? minutes : seconds > 0 
+                        ? seconds : '00'}: 
+                      ${minutes > 0 ? minutes : seconds > 0 
+                        ? seconds : '00'} : 
+                      ${seconds > 0 ? seconds : '00'} hrs`
+    return timeString
+  }
+
   return (
     // <AuthenticatedLayout
     //   user={auth.user}
@@ -56,7 +87,7 @@ const ScheduleList = ({
                           {schedule.to}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
-                          {schedule.duration}
+                          {getDuration(schedule)}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
                           ₹{schedule.fare}
