@@ -29,13 +29,26 @@ const ScheduleList = ({
     const seconds = Math.floor((diffInMilliseconds / 1000) % 60)
 
     // prettier-ignore
-    let timeString = `${hours > 0 ? hours : minutes > 0 
-                        ? minutes : seconds > 0 
-                        ? seconds : '00'}: 
-                      ${minutes > 0 ? minutes : seconds > 0 
-                        ? seconds : '00'} : 
+    // let timeString = `${hours > 0 ? hours : minutes > 0
+    //                     ? minutes : seconds > 0
+    //                     ? seconds : '00'}:
+    //                   ${minutes > 0 ? minutes : seconds > 0
+    //                     ? seconds : '00'} :
+    //                   ${seconds > 0 ? seconds : '00'} hrs`
+    let timeString = `${hours > 0 ? hours : '00'}: 
+                      ${minutes > 0 ? minutes : '00'}:
                       ${seconds > 0 ? seconds : '00'} hrs`
     return timeString
+  }
+  const getFare = (schedule: any) => {
+    const indexOfFrom = schedule.stops.split(',').indexOf(schedule.from)
+    const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
+
+    const distancesArray = schedule.stops_distance.split(',').map(Number) // Convert to array of numbers
+    const distanceAtFrom = distancesArray[indexOfFrom]
+    const distanceAtTo = distancesArray[indexOfTo]
+
+    return 10 * (distanceAtTo - distanceAtFrom) // Calculate the distance difference
   }
 
   return (
@@ -90,7 +103,7 @@ const ScheduleList = ({
                           {getDuration(schedule)}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
-                          ₹{schedule.fare}
+                          ₹{getFare(schedule)}
                         </td>
                         <td className='py-3 px-4 border-b border-gray-200'>
                           <PrimaryButton className='ms-4'>

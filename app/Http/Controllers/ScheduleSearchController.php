@@ -37,6 +37,23 @@ class ScheduleSearchController extends Controller
             // ->with('bus') // Eager load the bus relationship
             ->get();
 
+
+        // Filter schedules based on the exact time position
+        $schedules = $schedules->filter(function ($schedule) use ($data) {
+            // Extract stops and timings
+            $stopsArray = explode(',', $schedule->stops);
+            $timingsArray = explode(',', $schedule->stops_timings);
+
+            // Find the index of the 'from' stop
+            $fromIndex = array_search(trim($data['from']), array_map('trim', $stopsArray));
+
+            // Check if the index is valid and if the corresponding timing matches
+            return $fromIndex !== false
+                && isset($timingsArray[$fromIndex])
+                && trim($timingsArray[$fromIndex]) === $data['time'];
+        });
+
+
         // Transform the response to include only matching data
         $response = $schedules->map(function ($schedule) use ($data) {
             return [
