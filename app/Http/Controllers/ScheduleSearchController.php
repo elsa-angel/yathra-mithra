@@ -34,7 +34,7 @@ class ScheduleSearchController extends Controller
                 // string of times like "08:00,10:00,12:00"
                 $query->where('stops_timings', 'like', "%{$data['time']}%");
             })
-            // ->with('bus') // Eager load the bus relationship
+            ->with('bus') // Eager load the bus relationship
             ->get();
 
 
@@ -60,7 +60,7 @@ class ScheduleSearchController extends Controller
                 'from' => $data['from'],
                 'to' => $data['to'],
                 'bus_id' => $schedule->bus_id,
-
+                'bus_details' => $schedule->bus,
                 'stops' => $schedule->stops,
                 'stops_timings' => $schedule->stops_timings,
                 'stops_distance' => $schedule->stops_distance,
