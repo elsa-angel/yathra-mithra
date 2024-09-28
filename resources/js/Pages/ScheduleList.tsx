@@ -72,9 +72,6 @@ const ScheduleList = ({
     // >
     //   <Head title='Booking Details' />
     <div className='py-12'>
-      {/* {isSeatReservationVisible ? (
-       <SeatReservation />
-     ) : ( */}
       {isSeatReservationVisible ? (
         <SeatReservation auth={auth} schedules={selectedSchedule} /> // Pass the selected schedule if needed
       ) : (
