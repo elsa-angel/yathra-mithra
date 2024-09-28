@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import '../Components/SeatAvailability.css' // Ensure to import your CSS styles here
+import '../Components/SeatAvailability.css'
+import PrimaryButton from '@/Components/PrimaryButton'
 
 const SeatAvailability: React.FC = () => {
   // Algorithm
@@ -72,6 +73,14 @@ const SeatAvailability: React.FC = () => {
         ))}
       </ol>
       <div className='exit exit--back fuselage'></div>
+      <div className='flex justify-center'>
+        <PrimaryButton
+          className='ms-4'
+          // onClick={() => handleBookNow(schedule)}
+        >
+          Book Now
+        </PrimaryButton>
+      </div>
     </div>
   )
 }
