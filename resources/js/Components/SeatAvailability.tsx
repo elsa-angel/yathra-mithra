@@ -47,7 +47,7 @@ const SeatAvailability: React.FC = () => {
       </div>
       <div className='exit exit--front fuselage'></div>
       <ol className='cabin fuselage'>
-        {Array.from({ length: 10 }, (_, rowIndex) => (
+        {Array.from({ length: 7 }, (_, rowIndex) => (
           <li key={rowIndex} className={`row row--${rowIndex + 1}`}>
             <ol className='seats' type='A'>
               {['A', 'B', 'C', 'D'].map((letter) => {
