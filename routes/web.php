@@ -41,9 +41,9 @@ Route::get('/searchg', function () {
     return Inertia::render('ScheduleGuest');
 })->name('searchg');
 
-Route::get('/seats', function () {
-    return Inertia::render('SeatAvailability');
-})->name('seats');
+// Route::get('/seats', function () {
+//     return Inertia::render('SeatAvailability');
+// })->name('seats');
 
 
 Route::get('/schedule_list', function () {

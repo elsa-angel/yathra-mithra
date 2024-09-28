@@ -13,10 +13,10 @@ let schedules: any = []
 
 export default function BusSearchForm({ auth } /*props here*/ : PageProps) {
   const [formData, setFormData] = useState({
-    from: '',
-    to: '',
+    from: 'a',
+    to: 'c',
     date: new Date().toLocaleDateString('en-CA'),
-    time: moment().format('HH:mm')
+    time: '09:00' || moment().format('HH:mm')
   })
 
   const [formErrors, setFormErrors] = useState({
