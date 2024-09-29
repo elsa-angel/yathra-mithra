@@ -29,26 +29,27 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
 Route::get('/schedule_list', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('schedule_list');
 
-Route::get('/searchg', function () {
-    return Inertia::render('ScheduleGuest');
-})->name('searchg');
+Route::get('/reservation/{schedule_id}', function (string $schedule_id) {
+    return Inertia::render('Reservation', [
+        'schedule_id' => $schedule_id
+    ]);
+})->middleware(['auth', 'verified'])->name('reservation');
 
-// Route::get('/seats', function () {
-//     return Inertia::render('SeatAvailability');
-// })->name('seats');
-
-
-Route::get('/schedule_list', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/reservation_failed', function () {
+    return Inertia::render('Reservation_Failed', );
+})->middleware(['auth', 'verified'])->name('reservation_failed');
 
 Route::get('/seat_reservation', function () {
     return Inertia::render('SeatReservation');
@@ -58,22 +59,14 @@ Route::get('/payment', function () {
     return Inertia::render('Payment');
 })->name('payment');
 
-Route::get('/searchg', function () {
-    return Inertia::render('ScheduleGuest');
-})->name('searchg');
-
-
-
-
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/searchg', function () {
+    return Inertia::render('ScheduleGuest');
+})->name('searchg');
 
 require __DIR__ . '/auth.php';

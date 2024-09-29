@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
-import '../Components/SeatAvailability.css'
 import PrimaryButton from '@/Components/PrimaryButton'
+import '../Components/seat_availability.css'
 
-const SeatAvailability: React.FC = () => {
+interface Props {
+  updateCurrentStep: (step: number) => void
+}
+
+const SeatAvailability: React.FC<Props> = ({ updateCurrentStep }) => {
   // Algorithm
   // 1. Get total no. of seats in the bus
   // 2. Build seatlayout
@@ -39,11 +43,26 @@ const SeatAvailability: React.FC = () => {
       )
     )
   }
+  const anySeatsSelected = seats.some((seat) => seat.selected)
+
+  // Function to handle button click
+  const onClickPayNow = () => {
+    updateCurrentStep(2)
+  }
 
   return (
     <div className='bus'>
+      <div className='flex justify-center mb-2'>
+        <PrimaryButton
+          className='ms-4'
+          onClick={onClickPayNow}
+          disabled={!anySeatsSelected}
+        >
+          Book Now
+        </PrimaryButton>
+      </div>
       <div className='front'>
-        <h1>Please select a seat</h1>
+        <h1>Please Select seats</h1>
       </div>
       <div className='exit exit--front fuselage'></div>
       <ol className='cabin fuselage'>
@@ -73,14 +92,6 @@ const SeatAvailability: React.FC = () => {
         ))}
       </ol>
       <div className='exit exit--back fuselage'></div>
-      <div className='flex justify-center'>
-        <PrimaryButton
-          className='ms-4'
-          // onClick={() => handleBookNow(schedule)}
-        >
-          Book Now
-        </PrimaryButton>
-      </div>
     </div>
   )
 }

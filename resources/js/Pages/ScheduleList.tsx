@@ -1,11 +1,7 @@
-import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { PageProps } from '@/types'
 import PrimaryButton from '@/Components/PrimaryButton'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import axios from 'axios'
-import moment from 'moment'
 import SeatReservation from '@/Pages/SeatReservation'
 
 const ScheduleList = ({
@@ -56,9 +52,8 @@ const ScheduleList = ({
   // }
 
   const handleBookNow = (schedules: any) => {
-    setSelectedSchedule(schedules)
-    setSeatReservationVisible(true)
-    navigate('/seat_reservation')
+    const scheduleId = 101
+    window.location.href = `/reservation/${scheduleId}`
   }
 
   return (
