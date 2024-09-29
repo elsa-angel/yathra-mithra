@@ -2,13 +2,12 @@ import { PageProps } from '@/types'
 import PrimaryButton from '@/Components/PrimaryButton'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import SeatReservation from '@/Pages/SeatReservation'
+import SeatAvailability from '../Components/SeatAvailability'
 
 const ScheduleList = ({
   auth,
   schedules
 }: PageProps & { schedules: any[] }) => {
-  const navigate = useNavigate()
   const [isSeatReservationVisible, setSeatReservationVisible] = useState(false)
   const [selectedSchedule, setSelectedSchedule] = useState(null)
 
@@ -46,29 +45,18 @@ const ScheduleList = ({
     return 10 * (distanceAtTo - distanceAtFrom)
   }
 
-  // const handleBookNow = () => {
-  //   setSeatReservationVisible(true)
-  //   navigate('/seat-reservation')
-  // }
+  const handleBookNow = (schedule: any) => {
+    // Call an API to store the selected schedule data
+    // into a temporary reservation table
 
-  const handleBookNow = (schedules: any) => {
-    const scheduleId = 101
-    window.location.href = `/reservation/${scheduleId}`
+    //
+    window.location.href = `/reservation/${schedule.id}`
   }
 
   return (
-    // <AuthenticatedLayout
-    //   user={auth.user}
-    //   header={
-    //     <h2 className='font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight'>
-    //       Booking Details
-    //     </h2>
-    //   }
-    // >
-    //   <Head title='Booking Details' />
     <div className=''>
       {isSeatReservationVisible ? (
-        <SeatReservation auth={auth} schedules={selectedSchedule} /> // Pass the selected schedule if needed
+        <SeatAvailability auth={auth} schedules={selectedSchedule} /> // Pass the selected schedule if needed
       ) : (
         <div className=''>
           <div className='bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg'>
@@ -143,8 +131,6 @@ const ScheduleList = ({
         </div>
       )}
     </div>
-    //{' '}
-    //</AuthenticatedLayout>
   )
 }
 

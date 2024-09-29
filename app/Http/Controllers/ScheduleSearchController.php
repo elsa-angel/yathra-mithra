@@ -57,6 +57,7 @@ class ScheduleSearchController extends Controller
         // Transform the response to include only matching data
         $response = $schedules->map(function ($schedule) use ($data) {
             return [
+                'id' => $schedule->id,
                 'from' => $data['from'],
                 'to' => $data['to'],
                 'bus_id' => $schedule->bus_id,

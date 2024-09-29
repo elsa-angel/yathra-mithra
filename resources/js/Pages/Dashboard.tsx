@@ -25,9 +25,7 @@ export default function ({ auth }: PageProps) {
             ? 'Dashboard'
             : currentLocation?.endsWith('schedule_list')
               ? 'Schedules List'
-              : currentLocation?.endsWith('seat_reservation')
-                ? 'Seat Availability'
-                : 'Yathra-Mithra'}
+              : 'Yathra-Mithra'}
         </h2>
       }
     >
@@ -37,9 +35,7 @@ export default function ({ auth }: PageProps) {
             ? 'Dashboard'
             : currentLocation?.endsWith('schedule_list')
               ? 'Schedules List'
-              : currentLocation?.endsWith('seat_reservation')
-                ? 'Seat Availability'
-                : 'Yathra-Mithra'
+              : 'Yathra-Mithra'
         }
       />
 

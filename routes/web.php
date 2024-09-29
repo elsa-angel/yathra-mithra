@@ -51,9 +51,6 @@ Route::get('/reservation_failed', function () {
     return Inertia::render('Reservation_Failed', );
 })->middleware(['auth', 'verified'])->name('reservation_failed');
 
-Route::get('/seat_reservation', function () {
-    return Inertia::render('SeatReservation');
-})->name('seat_reservation');
 
 Route::get('/payment', function () {
     return Inertia::render('Payment');

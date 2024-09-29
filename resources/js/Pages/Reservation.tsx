@@ -3,8 +3,9 @@ import { PageProps } from '@/types'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import SeatAvailability from '@/Components/SeatAvailability'
 import Payment from '@/Components/Payment'
+import axios from 'axios'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Reservation({ auth }: PageProps) {
   // Use the usePage hook to access the props
@@ -12,6 +13,27 @@ export default function Reservation({ auth }: PageProps) {
 
   // Extract the schedule_id from props
   const { schedule_id } = props
+
+  // Fetch Schedule API
+
+  const [schedule, setSchedule] = useState({})
+  const [isScheduleLoading, setScheduleLoading] = useState(true)
+
+  const [totalSeats, setTotalSeats] = useState(0)
+
+  const getScheduleDetail = async () => {
+    try {
+      const schedule = await axios.get(`/schedule_details/${schedule_id}`)
+      setTotalSeats(schedule.data.bus.num_seats)
+      setSchedule(schedule.data)
+      setScheduleLoading(false)
+      debugger
+    } catch (error) {
+      console.error('Error occured', error)
+    }
+  }
+
+  isScheduleLoading && getScheduleDetail()
 
   // Stepper Components handling
   const [currentStep, setCurrentStep] = useState(1)
@@ -31,20 +53,21 @@ export default function Reservation({ auth }: PageProps) {
     >
       <div className='py-12'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6'>
-          <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg '>
-            {' '}
-            <Head title='Reservation' />
-            {currentStep == 1 && (
-              <SeatAvailability updateCurrentStep={updateCurrentStep} />
-            )}
-            {currentStep == 2 && (
-              <Payment
-                auth={auth}
-                scheduleId={schedule_id as string}
-                updateCurrentStep={updateCurrentStep}
-              />
-            )}
-          </div>
+          <Head title='Reservation' />
+          {isScheduleLoading && <h1>Loading...</h1>}
+          {currentStep == 1 && !isScheduleLoading && (
+            <SeatAvailability
+              updateCurrentStep={updateCurrentStep}
+              totalSeats={totalSeats}
+            />
+          )}
+          {currentStep == 2 && !isScheduleLoading && (
+            <Payment
+              auth={auth}
+              schedule={schedule}
+              updateCurrentStep={updateCurrentStep}
+            />
+          )}
         </div>
       </div>
     </AuthenticatedLayout>

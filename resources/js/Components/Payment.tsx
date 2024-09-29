@@ -8,30 +8,20 @@ import { scheduler } from 'timers/promises'
 import Stripe from 'stripe'
 
 interface BookingDetailsProps {
-  scheduleId: string
-  boatId: string
-  from: string
-  to: string
-  time: string
-  totalAmount: number
+  schedule: any
   auth: { user: any }
   updateCurrentStep: () => void
 }
 
 const Payment: React.FC<BookingDetailsProps> = ({
-  scheduleId,
-  // busId,
-  // from,
-  // to,
-  // time,
-  // totalAmount,
+  schedule,
   auth,
   updateCurrentStep
 }) => {
-  let busId = 'Test'
-  let from = 'Test'
-  let to = 'Test'
-  let time = 'Test'
+  let busId = schedule.bus.id
+  let from = schedule.from
+  let to = schedule.to
+  let time = schedule.stops_timings
   let totalAmount = 210
 
   const makePayment = async () => {
@@ -91,7 +81,6 @@ const Payment: React.FC<BookingDetailsProps> = ({
 
   return (
     <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
-      {' '}
       <Head title='Payment' />
       <div className='space-y-4'>
         <div className='flex justify-between'>
