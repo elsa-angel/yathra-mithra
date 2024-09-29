@@ -4,9 +4,13 @@ import '../Components/seat_availability.css'
 
 interface Props {
   updateCurrentStep: (step: number) => void
+  totalSeats: number
 }
 
-const SeatAvailability: React.FC<Props> = ({ updateCurrentStep }) => {
+const SeatAvailability: React.FC<Props> = ({
+  updateCurrentStep,
+  totalSeats
+}) => {
   // Algorithm
   // 1. Get total no. of seats in the bus
   // 2. Build seatlayout
@@ -43,6 +47,9 @@ const SeatAvailability: React.FC<Props> = ({ updateCurrentStep }) => {
       )
     )
   }
+
+  console.log(totalSeats, 'ttseats')
+
   const anySeatsSelected = seats.some((seat) => seat.selected)
 
   // Function to handle button click
@@ -51,47 +58,49 @@ const SeatAvailability: React.FC<Props> = ({ updateCurrentStep }) => {
   }
 
   return (
-    <div className='bus'>
-      <div className='flex justify-center mb-2'>
-        <PrimaryButton
-          className='ms-4'
-          onClick={onClickPayNow}
-          disabled={!anySeatsSelected}
-        >
-          Book Now
-        </PrimaryButton>
+    <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg '>
+      <div className='bus'>
+        <div className='flex justify-center mb-2'>
+          <PrimaryButton
+            className='ms-4'
+            onClick={onClickPayNow}
+            disabled={!anySeatsSelected}
+          >
+            Book Now
+          </PrimaryButton>
+        </div>
+        <div className='front'>
+          <h1>Please Select seats</h1>
+        </div>
+        <div className='exit exit--front fuselage'></div>
+        <ol className='cabin fuselage'>
+          {Array.from({ length: totalSeats / 4 }, (_, rowIndex) => (
+            <li key={rowIndex} className={`row row--${rowIndex + 1}`}>
+              <ol className='seats' type='A'>
+                {['A', 'B', 'C', 'D'].map((letter) => {
+                  const seatId = `${rowIndex + 1}${letter}`
+                  const seat = seats.find((s: any) => s.id === seatId)
+                  return (
+                    <li key={seatId} className='seat'>
+                      <input
+                        type='checkbox'
+                        id={seatId}
+                        checked={seat?.selected || false}
+                        onChange={() => handleSeatChange(seatId)}
+                        disabled={seat?.occupied}
+                      />
+                      <label htmlFor={seatId}>
+                        {seat?.occupied ? 'Occupied' : seatId}
+                      </label>
+                    </li>
+                  )
+                })}
+              </ol>
+            </li>
+          ))}
+        </ol>
+        <div className='exit exit--back fuselage'></div>
       </div>
-      <div className='front'>
-        <h1>Please Select seats</h1>
-      </div>
-      <div className='exit exit--front fuselage'></div>
-      <ol className='cabin fuselage'>
-        {Array.from({ length: 7 }, (_, rowIndex) => (
-          <li key={rowIndex} className={`row row--${rowIndex + 1}`}>
-            <ol className='seats' type='A'>
-              {['A', 'B', 'C', 'D'].map((letter) => {
-                const seatId = `${rowIndex + 1}${letter}`
-                const seat = seats.find((s: any) => s.id === seatId)
-                return (
-                  <li key={seatId} className='seat'>
-                    <input
-                      type='checkbox'
-                      id={seatId}
-                      checked={seat?.selected || false}
-                      onChange={() => handleSeatChange(seatId)}
-                      disabled={seat?.occupied}
-                    />
-                    <label htmlFor={seatId}>
-                      {seat?.occupied ? 'Occupied' : seatId}
-                    </label>
-                  </li>
-                )
-              })}
-            </ol>
-          </li>
-        ))}
-      </ol>
-      <div className='exit exit--back fuselage'></div>
     </div>
   )
 }
