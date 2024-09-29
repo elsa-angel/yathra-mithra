@@ -1,4 +1,4 @@
-import { Link, Head, useForm } from '@inertiajs/react'
+import { Link, Head } from '@inertiajs/react'
 import { PageProps } from '@/types'
 import { useState } from 'react'
 import InputLabel from '@/Components/InputLabel'
@@ -43,7 +43,7 @@ export default function Welcome({
           <div className='flex justify-center'></div>
           <h2>Welcome!</h2>
           <div className='mt-16'>
-            <BusSearchForm />
+            {/* <BusSearchForm /> */}
 
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8'>
               <a
@@ -53,7 +53,10 @@ export default function Welcome({
                 className='scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500'
               >
                 <div>
-                  <div className='h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full'></div>
+                  <div className='h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full'>
+                    01
+                  </div>
+                  Schedules
                 </div>
               </a>
 
