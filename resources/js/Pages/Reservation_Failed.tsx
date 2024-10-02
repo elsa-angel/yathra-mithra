@@ -16,12 +16,14 @@ const Reservation_Failed: React.FC<{ auth: any }> = ({ auth }) => {
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6'>
           <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg '>
             Oops!! Payment Failed
-            <Link
-              href={route('dashboard')}
-              className='font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500'
-            >
-              Return Back to Home
-            </Link>
+            <div>
+              <Link
+                href={route('dashboard')}
+                className='font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500'
+              >
+                Return Back to Home
+              </Link>
+            </div>
           </div>
         </div>
       </div>

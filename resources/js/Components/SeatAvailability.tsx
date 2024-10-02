@@ -17,22 +17,30 @@ const SeatAvailability: React.FC<Props> = ({
 
   interface ISeat {
     id: string
-    occupied: boolean
+    //occupied: boolean
     selected: boolean
   }
 
-  const seatLayout: Array<ISeat> = [
-    { id: '1A', occupied: false, selected: false },
-    { id: '1B', occupied: false, selected: false },
-    { id: '1C', occupied: false, selected: false },
-    { id: '1D', occupied: true, selected: false },
-    { id: '2A', occupied: false, selected: false },
-    { id: '2B', occupied: false, selected: false },
-    { id: '2C', occupied: false, selected: false },
-    { id: '2D', occupied: false, selected: false }
+  // Calculate number of rows and columns
+  const rows = Math.ceil(totalSeats / 4) // Assuming 4 seats per row
+  const columns = ['A', 'B', 'C', 'D']
 
-    // Add additional seats as needed...
-  ]
+  // Build the seat layout dynamically
+  const seatLayout = (): Array<ISeat> => {
+    const layout: Array<ISeat> = []
+    for (let rowIndex = 1; rowIndex <= rows; rowIndex++) {
+      for (const column of columns) {
+        layout.push({
+          id: `${rowIndex}${column}`,
+          //occupied: Math.random() < 0.2,
+          selected: false
+        })
+      }
+    }
+    return layout
+  }
+
+  // Add additional seats as needed...
 
   // 1. Get already reserved seats in the bus = ['1A','2A','2B']
 
