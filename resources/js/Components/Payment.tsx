@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { scheduler } from 'timers/promises'
 
 import Stripe from 'stripe'
+import LoadingBar from 'react-top-loading-bar'
 
 interface BookingDetailsProps {
   schedule: any
@@ -28,22 +29,17 @@ const Payment: React.FC<BookingDetailsProps> = ({
     // console.log(process.env.STRIPE_PUBLIC_KEY)
 
     // const stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY)
+    updateProgress(30)
     const stripe = await loadStripe(
       'pk_test_51Q3wbuIMqVOQVQ5ADpdbpZYftHwMsC4gnTkN21xgQp6CgExTuxvhvXNv85xjLnaElL8rVrokgWeiRGpeFRc6QgWP00x0FwRJx6'
     )
 
+    updateProgress(70)
     const session = await makeStripePayment()
-
+    updateProgress(100)
     const response = await stripe?.redirectToCheckout({
       sessionId: session.id
     })
-    debugger
-
-    // if (error) {
-    //   console.error('Payment Failed', error)
-    // } else {
-    //   console.info('Payment Success')
-    // }
   }
 
   async function makeStripePayment() {
@@ -73,15 +69,29 @@ const Payment: React.FC<BookingDetailsProps> = ({
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: price.id, quantity: 1 }],
       mode: 'payment',
-      success_url: `http://127.0.0.1:8000/reservation/${scheduleId}`,
+      success_url: `http://127.0.0.1:8000/reservation/${schedule.id}`,
       cancel_url: `http://127.0.0.1:8000/reservation_failed`
     })
     return session
   }
 
+  // loading bar
+
+  const [progress, setProgress] = useState(0)
+
+  const updateProgress = (newProgress: number) => {
+    setProgress(newProgress)
+    // loadingBar.current.continuousStart();
+  }
+
   return (
     <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
       <Head title='Payment' />
+      <LoadingBar
+        color='blue'
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <div className='space-y-4'>
         <div className='flex justify-between'>
           <span className='font-semibold'>Bus ID:</span>
