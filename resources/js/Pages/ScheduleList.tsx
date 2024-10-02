@@ -53,12 +53,13 @@ const ScheduleList = ({
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
     const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
 
-    const response = await axios.post('/save_booking', {
+    const response = await axios.post('/bookings', {
       schedule_id: schedule.id,
       user_id: 1, // todo
       departure_stop: schedule.from,
       arrival_stop: schedule.to,
       fare: getFare(schedule),
+      reserved_seats: 'null',
       departure_time: schedule.time,
       arrival_time: arrivalTimeAtTo
     })
@@ -97,7 +98,7 @@ const ScheduleList = ({
                   </thead>
                   <tbody className='text-gray-700 text-sm font-light'>
                     {schedules?.length > 0 ? (
-                      schedules.map((schedule, index) => (
+                      schedules?.map((schedule, index) => (
                         <tr
                           key={index}
                           className={

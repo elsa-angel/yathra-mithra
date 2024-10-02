@@ -23,7 +23,7 @@ export default function Reservation({ auth }: PageProps) {
 
   const getBookingDetails = async () => {
     try {
-      const booking = await axios.get(`/booking_details/${booking_id}`)
+      const booking = await axios.get(`/bookings/${booking_id}`)
       setTotalSeats(booking.data?.schedule?.bus?.num_seats)
       setBookingData(booking.data)
       setBookingLoading(false)
@@ -57,6 +57,8 @@ export default function Reservation({ auth }: PageProps) {
           {currentStep == 1 && !isBookingLoading && (
             <SeatAvailability
               updateCurrentStep={updateCurrentStep}
+              bookingId={booking_id as number}
+              fare={(bookingData as any)?.amount}
               totalSeats={totalSeats}
             />
           )}

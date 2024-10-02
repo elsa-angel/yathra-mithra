@@ -37,6 +37,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -65,9 +68,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
 
-    Route::post('save_booking', [BookingController::class, 'store'])->name('store');
+    Route::post('bookings', [BookingController::class, 'store'])->name('store');
 
-    Route::get('booking_details/{booking_id}', [BookingDetailsController::class, 'show'])->name('show');
+    Route::patch('/bookings/{id}', [BookingController::class, 'update']);
+
+    Route::get('bookings/{booking_id}', [BookingDetailsController::class, 'show'])->name('show');
 
 
     // GET /users

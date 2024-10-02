@@ -1,14 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PrimaryButton from '@/Components/PrimaryButton'
 import '../Components/seat_availability.css'
+import axios from 'axios'
 
 interface Props {
   updateCurrentStep: (step: number) => void
+  bookingId: number
+  fare: number
   totalSeats: number
 }
 
 const SeatAvailability: React.FC<Props> = ({
   updateCurrentStep,
+  bookingId,
+  fare,
   totalSeats
 }) => {
   // Algorithm
@@ -17,7 +22,7 @@ const SeatAvailability: React.FC<Props> = ({
 
   interface ISeat {
     id: string
-    //occupied: boolean
+    occupied: boolean
     selected: boolean
   }
 
@@ -25,30 +30,52 @@ const SeatAvailability: React.FC<Props> = ({
   const rows = Math.ceil(totalSeats / 4) // Assuming 4 seats per row
   const columns = ['A', 'B', 'C', 'D']
 
-  // Build the seat layout dynamically
-  const seatLayout = (): Array<ISeat> => {
-    const layout: Array<ISeat> = []
+  const [seats, setSeats] = useState<ISeat[]>([])
+  const [reservedSeats, setReservedSeats] = useState<string[]>([])
+  const [occupiedSeats, setOccupiedSeats] = useState<string[]>([])
+
+  useEffect(() => {
+    const fetchReservedSeats = async () => {
+      try {
+        const booking = await axios.get(`/bookings/${bookingId}`)
+        debugger
+        setReservedSeats(booking?.data?.reserved_seats)
+        setOccupiedSeats(booking?.data?.schedule?.bus?.occupied_seats)
+      } catch (error) {
+        console.error('Error fetching reserved seats:', error)
+      }
+    }
+
+    fetchReservedSeats()
+  }, [bookingId])
+
+  useEffect(() => {
+    const layout = seatLayout()
+    setSeats(layout)
+  }, [reservedSeats])
+
+  const seatLayout = (): ISeat[] => {
+    const layout: ISeat[] = []
     for (let rowIndex = 1; rowIndex <= rows; rowIndex++) {
       for (const column of columns) {
+        const seatId = `${rowIndex}${column}`
         layout.push({
-          id: `${rowIndex}${column}`,
-          //occupied: Math.random() < 0.2,
-          selected: false
+          id: seatId,
+          occupied: isSeatOccupied(seatId),
+          selected: reservedSeats.includes(seatId) ?? false
         })
       }
     }
     return layout
   }
 
-  // Add additional seats as needed...
-
-  // 1. Get already reserved seats in the bus = ['1A','2A','2B']
-
-  const [seats, setSeats] = useState(seatLayout)
+  const isSeatOccupied = (seat: string): boolean => {
+    return occupiedSeats?.includes(seat)
+  }
 
   const handleSeatChange = (id: string) => {
     setSeats(
-      seats.map((seat: ISeat) =>
+      seats.map((seat) =>
         seat.id === id && !seat.occupied
           ? { ...seat, selected: !seat.selected }
           : seat
@@ -56,17 +83,23 @@ const SeatAvailability: React.FC<Props> = ({
     )
   }
 
-  console.log(totalSeats, 'ttseats')
+  const numOfSeatsSelected = seats.filter((seat) => seat.selected).length
 
-  const anySeatsSelected = seats.some((seat) => seat.selected)
+  const onClickPayNow = async () => {
+    const selectedSeats = seats
+      .filter((seat: ISeat) => seat.selected)
+      .map((seat: ISeat) => seat.id)
+      .join(',')
 
-  // Function to handle button click
-  const onClickPayNow = () => {
-    // Update
-    // 1. selected seats
-    // 2. fare
-
-    updateCurrentStep(2)
+    try {
+      await axios.patch(`/bookings/${bookingId}`, {
+        reserved_seats: selectedSeats
+        // amount: numOfSeatsSelected * fare
+      })
+      updateCurrentStep(2)
+    } catch (error) {
+      console.error('Error updating booking:', error)
+    }
   }
 
   return (
@@ -74,13 +107,18 @@ const SeatAvailability: React.FC<Props> = ({
       <div className='bus'>
         <div className='flex justify-center mb-2'>
           <PrimaryButton
-            className='ms-4'
+            className='ms-4 bg-blue-700 hover:bg-blue-900'
             onClick={onClickPayNow}
-            disabled={!anySeatsSelected}
+            disabled={numOfSeatsSelected == 0}
           >
             Book Now
           </PrimaryButton>
         </div>
+        {numOfSeatsSelected > 0 && (
+          <span className='flex justify-center mb-2'>
+            Total Amount : {fare * numOfSeatsSelected}
+          </span>
+        )}
         <div className='front'>
           <h1>Please Select seats</h1>
         </div>
