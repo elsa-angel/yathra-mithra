@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ScheduleSearchController;
 use App\Http\Controllers\ScheduleDetailsController;
+use App\Http\Controllers\BookingController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -63,6 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::post('contact', [MessageController::class, 'store'])->name('store');
 
     Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
+
+    Route::post('save_booking', [BookingController::class, 'store'])->name('store');
 
     Route::get('schedule_details/{schedule_id}', [ScheduleDetailsController::class, 'show'])->name('show');
 

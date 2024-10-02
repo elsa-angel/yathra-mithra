@@ -3,6 +3,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import SeatAvailability from '../Components/SeatAvailability'
+import axios from 'axios'
 
 const ScheduleList = ({
   auth,
@@ -45,11 +46,17 @@ const ScheduleList = ({
     return 10 * (distanceAtTo - distanceAtFrom)
   }
 
-  const handleBookNow = (schedule: any) => {
+  const handleBookNow = async (schedule: any) => {
     // Call an API to store the selected schedule data
     // into a temporary reservation table
 
-    //
+    debugger
+    const response = await axios.post('/save_booking', {
+      departure_stop: schedule.from,
+      arrival_stop: schedule.to,
+      fare: getFare(schedule)
+    })
+
     window.location.href = `/reservation/${schedule.id}`
   }
 

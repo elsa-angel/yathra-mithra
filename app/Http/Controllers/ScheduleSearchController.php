@@ -60,6 +60,8 @@ class ScheduleSearchController extends Controller
                 'id' => $schedule->id,
                 'from' => $data['from'],
                 'to' => $data['to'],
+                'date' => $data['date'],
+                'time' => $data['time'],
                 'bus_id' => $schedule->bus_id,
                 'bus_details' => $schedule->bus,
                 'stops' => $schedule->stops,
