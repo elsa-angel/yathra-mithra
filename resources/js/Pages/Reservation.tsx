@@ -5,35 +5,34 @@ import SeatAvailability from '@/Components/SeatAvailability'
 import Payment from '@/Components/Payment'
 import axios from 'axios'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function Reservation({ auth }: PageProps) {
   // Use the usePage hook to access the props
   const { props } = usePage()
 
-  // Extract the schedule_id from props
-  const { schedule_id } = props
+  // Extract the booking_id from props
+  const { booking_id } = props
 
-  // Fetch Schedule API
+  // Fetch Booking API
 
-  const [schedule, setSchedule] = useState({})
-  const [isScheduleLoading, setScheduleLoading] = useState(true)
+  const [bookingData, setBookingData] = useState({})
+  const [isBookingLoading, setBookingLoading] = useState(true)
 
   const [totalSeats, setTotalSeats] = useState(0)
 
-  const getScheduleDetail = async () => {
+  const getBookingDetails = async () => {
     try {
-      const schedule = await axios.get(`/schedule_details/${schedule_id}`)
-      setTotalSeats(schedule.data.bus.num_seats)
-      setSchedule(schedule.data)
-      setScheduleLoading(false)
-      debugger
+      const booking = await axios.get(`/booking_details/${booking_id}`)
+      setTotalSeats(booking.data?.schedule?.bus?.num_seats)
+      setBookingData(booking.data)
+      setBookingLoading(false)
     } catch (error) {
       console.error('Error occured', error)
     }
   }
 
-  isScheduleLoading && getScheduleDetail()
+  isBookingLoading && getBookingDetails()
 
   // Stepper Components handling
   const [currentStep, setCurrentStep] = useState(1)
@@ -54,17 +53,17 @@ export default function Reservation({ auth }: PageProps) {
       <div className='py-12'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6'>
           <Head title='Reservation' />
-          {isScheduleLoading && <h1>Loading...</h1>}
-          {currentStep == 1 && !isScheduleLoading && (
+          {isBookingLoading && <h1>Loading...</h1>}
+          {currentStep == 1 && !isBookingLoading && (
             <SeatAvailability
               updateCurrentStep={updateCurrentStep}
               totalSeats={totalSeats}
             />
           )}
-          {currentStep == 2 && !isScheduleLoading && (
+          {currentStep == 2 && !isBookingLoading && (
             <Payment
               auth={auth}
-              schedule={schedule}
+              bookingData={bookingData}
               updateCurrentStep={updateCurrentStep}
             />
           )}

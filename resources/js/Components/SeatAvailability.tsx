@@ -62,6 +62,10 @@ const SeatAvailability: React.FC<Props> = ({
 
   // Function to handle button click
   const onClickPayNow = () => {
+    // Update
+    // 1. selected seats
+    // 2. fare
+
     updateCurrentStep(2)
   }
 

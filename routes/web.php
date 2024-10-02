@@ -41,9 +41,9 @@ Route::get('/schedule_list', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('schedule_list');
 
-Route::get('/reservation/{schedule_id}', function (string $schedule_id) {
+Route::get('/reservation/{booking_id}', function (string $booking_id) {
     return Inertia::render('Reservation', [
-        'schedule_id' => $schedule_id
+        'booking_id' => $booking_id
     ]);
 })->middleware(['auth', 'verified'])->name('reservation');
 

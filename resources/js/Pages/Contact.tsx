@@ -88,8 +88,7 @@ export default function Contact({ auth }: PageProps) {
       const response = await axios.post('/contact', {
         ...data
       })
-      //debugger
-      //alert((response as any)?.data?.message)
+
       Command: toastr['success']('Message Sent Successfully')
 
       setData('message', '')

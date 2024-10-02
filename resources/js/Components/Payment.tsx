@@ -9,20 +9,21 @@ import Stripe from 'stripe'
 import LoadingBar from 'react-top-loading-bar'
 
 interface BookingDetailsProps {
-  schedule: any
+  bookingData: any
   auth: { user: any }
   updateCurrentStep: () => void
 }
 
 const Payment: React.FC<BookingDetailsProps> = ({
-  schedule,
+  bookingData,
   auth,
   updateCurrentStep
 }) => {
-  let busId = schedule.bus.id
-  let from = schedule.from
-  let to = schedule.to
-  let time = schedule.stops_timings
+  debugger
+  let busId = bookingData?.schedule?.bus?.id
+  let from = bookingData.departure_stop
+  let to = bookingData.arrival_stop
+  let time = bookingData.departure_time
   let totalAmount = 210
 
   const makePayment = async () => {

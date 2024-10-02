@@ -10,9 +10,10 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'schedule_id' => 'required|string',
-            'user_id' => 'required|string',
-            'fare' => 'required|string',
+            'schedule_id' => 'required|numeric|exists:schedule,id',
+            'user_id' => 'required|numeric|exists:users,id',
+            'fare' => 'required|numeric',
+            'reserved_seats' => 'required|string',
             'departure_stop' => 'required|string',
             'arrival_stop' => 'required|string',
             'departure_time' => 'required|date_format:H:i',
@@ -23,6 +24,8 @@ class BookingController extends Controller
         $booking = Booking::create([
             'schedule_id' => $request->schedule_id,
             'user_id' => $request->user_id,
+            'amount' => $request->fare,
+            'reserved_seats' => $request->reserved_seats,
             'departure_stop' => $request->departure_stop,
             'arrival_stop' => $request->arrival_stop,
             'departure_time' => $request->departure_time,
