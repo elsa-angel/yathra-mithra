@@ -3,7 +3,6 @@ import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import PrimaryButton from '@/Components/PrimaryButton'
 import { loadStripe } from '@stripe/stripe-js'
-import { scheduler } from 'timers/promises'
 
 import Stripe from 'stripe'
 import LoadingBar from 'react-top-loading-bar'
@@ -11,7 +10,7 @@ import LoadingBar from 'react-top-loading-bar'
 interface BookingDetailsProps {
   bookingData: any
   auth: { user: any }
-  updateCurrentStep: () => void
+  updateCurrentStep: (step: number) => void
 }
 
 const Payment: React.FC<BookingDetailsProps> = ({
@@ -70,7 +69,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: price.id, quantity: 1 }],
       mode: 'payment',
-      success_url: `http://127.0.0.1:8000/reservation/${schedule.id}`,
+      success_url: `http://127.0.0.1:8000/reservation/${bookingData.id}`,
       cancel_url: `http://127.0.0.1:8000/reservation_failed`
     })
     return session
@@ -93,6 +92,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+
       <div className='space-y-4'>
         <div className='flex justify-between'>
           <span className='font-semibold'>Bus ID:</span>
@@ -114,7 +114,13 @@ const Payment: React.FC<BookingDetailsProps> = ({
           <span className='font-semibold'>Total Amount:</span>
           <span>&nbsp;{totalAmount}</span>
         </div>
-        <PrimaryButton className='' onClick={makePayment}>
+        <PrimaryButton className='mr-4' onClick={() => updateCurrentStep(1)}>
+          Go Back
+        </PrimaryButton>
+        <PrimaryButton
+          className='bg-blue-700 hover:bg-blue-900'
+          onClick={makePayment}
+        >
           Pay Now
         </PrimaryButton>
       </div>

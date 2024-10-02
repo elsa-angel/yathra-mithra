@@ -10,6 +10,8 @@ class Booking extends Model
     protected $fillable = [
         'schedule_id',
         'user_id',
+        'reserved_seats',
+        'amount',
         'departure_stop',
         'arrival_stop',
         'departure_time',

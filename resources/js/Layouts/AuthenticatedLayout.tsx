@@ -39,6 +39,12 @@ export default function Authenticated({
                 >
                   Contact
                 </NavLink>
+                <NavLink
+                  href={route('contact')}
+                  active={route().current('contact')}
+                >
+                  My Bookings
+                </NavLink>
               </div>
             </div>
 
