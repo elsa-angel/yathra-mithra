@@ -50,14 +50,20 @@ const ScheduleList = ({
     // Call an API to store the selected schedule data
     // into a temporary reservation table
 
-    debugger
+    const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
+    const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
+
     const response = await axios.post('/save_booking', {
+      schedule_id: schedule.id,
+      user_id: 1, // todo
       departure_stop: schedule.from,
       arrival_stop: schedule.to,
-      fare: getFare(schedule)
+      fare: getFare(schedule),
+      departure_time: schedule.time,
+      arrival_time: arrivalTimeAtTo
     })
 
-    window.location.href = `/reservation/${schedule.id}`
+    window.location.href = `/reservation/${response?.data?.booking_id}`
   }
 
   return (
