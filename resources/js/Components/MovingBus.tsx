@@ -6,14 +6,14 @@ import BusSearchForm from '../Components/BusSearchForm'
 const MovingBus: React.FC = () => {
   return (
     <div id='welcome_root'>
-      <div className='flex justify-center'>
+      {/* <div className='flex justify-center'>
         <div className='three'>
           <h1>
             Style Three
             <span>Example Tagline Text</span>
           </h1>
         </div>
-      </div>
+      </div> */}
 
       <div id='road'>
         <div id='cloud1'></div>
