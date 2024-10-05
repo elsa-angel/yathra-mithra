@@ -40,8 +40,8 @@ export default function Authenticated({
                   Contact
                 </NavLink>
                 <NavLink
-                  href={route('contact')}
-                  active={route().current('contact')}
+                  href={route('my_bookings')}
+                  active={route().current('my_bookings')}
                 >
                   My Bookings
                 </NavLink>
@@ -78,6 +78,9 @@ export default function Authenticated({
                   <Dropdown.Content>
                     <Dropdown.Link href={route('profile.edit')}>
                       Profile
+                    </Dropdown.Link>
+                    <Dropdown.Link href={route('e-wallet')}>
+                      E-Wallet
                     </Dropdown.Link>
                     <Dropdown.Link
                       href={route('logout')}

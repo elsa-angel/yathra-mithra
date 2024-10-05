@@ -37,6 +37,14 @@ Route::get('/contact', function () {
     return Inertia::render('Contact');
 })->name('contact');
 
+Route::get('/my_bookings', function () {
+    return Inertia::render('MyBookings');
+})->name('my_bookings');
+
+Route::get('/e-wallet', function () {
+    return Inertia::render('E-Wallet');
+})->name('e-wallet');
+
 Route::get('/schedule_list', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('schedule_list');
