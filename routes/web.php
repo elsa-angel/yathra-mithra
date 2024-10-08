@@ -38,7 +38,7 @@ Route::get('/contact', function () {
 })->name('contact');
 
 Route::get('/my_bookings', function () {
-    return Inertia::render('MyBookings');
+    return Inertia::render('My_Bookings');
 })->name('my_bookings');
 
 Route::get('/e-wallet', function () {
@@ -55,10 +55,13 @@ Route::get('/reservation/{booking_id}', function (string $booking_id) {
     ]);
 })->middleware(['auth', 'verified'])->name('reservation');
 
-Route::get('/reservation_failed', function () {
-    return Inertia::render('Reservation_Failed', );
-})->middleware(['auth', 'verified'])->name('reservation_failed');
+Route::get('/reservation_success/{booking_id}', function () {
+    return Inertia::render('Reservation_Success');
+})->middleware(['auth', 'verified'])->name('reservation_success');
 
+Route::get('/reservation_failed/{booking_id}', function () {
+    return Inertia::render('Reservation_Failed');
+})->middleware(['auth', 'verified'])->name('reservation_failed');
 
 Route::get('/payment', function () {
     return Inertia::render('Payment');

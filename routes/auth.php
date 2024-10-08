@@ -14,6 +14,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ScheduleSearchController;
 use App\Http\Controllers\BookingDetailsController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ReservationController;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -73,6 +74,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/bookings/{id}', [BookingController::class, 'update']);
 
     Route::get('bookings/{booking_id}', [BookingDetailsController::class, 'show'])->name('show');
+
+    Route::post('reservations', [ReservationController::class, 'store'])->name('store');
+
+    Route::get('reservations', [ReservationController::class, 'show'])->name('show');
+
 
 
     // GET /users
