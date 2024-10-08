@@ -358,38 +358,23 @@
   }
 }
 
-.three h1 {
-  font-size: 58px;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.5em;
-  padding-bottom: 15px;
+.wrap {
+  width: 765px;
+  height: 10px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 8em;
+  font-family: 'IM Fell Great Primer';
   position: relative;
+  color: #fff;
 }
 
-.three h1:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 5px;
-  width: 55px;
-  background-color: #111;
-}
-
-.three h1:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 2px;
-  height: 1px;
-  width: 95%;
-  max-width: 255px;
-  background-color: #333;
-}
-
-.three h1 span {
-  display: block;
-  font-size: 0.5em;
-  line-height: 1.3;
+.para {
+  font-size: 2em;
+  font-family: 'IM Fell Great Primer';
+  position: relative;
+  color: #fff;
+  text-align: center;
 }

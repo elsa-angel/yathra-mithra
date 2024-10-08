@@ -18,12 +18,11 @@ const Payment: React.FC<BookingDetailsProps> = ({
   auth,
   updateCurrentStep
 }) => {
-  debugger
   let busId = bookingData?.schedule?.bus?.id
   let from = bookingData.departure_stop
   let to = bookingData.arrival_stop
   let time = bookingData.departure_time
-  let totalAmount = 210
+  let totalAmount = bookingData.amount
 
   const makePayment = async () => {
     // console.log(process.env.STRIPE_PUBLIC_KEY)
@@ -37,7 +36,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
     updateProgress(70)
     const session = await makeStripePayment()
     updateProgress(100)
-    const response = await stripe?.redirectToCheckout({
+    stripe?.redirectToCheckout({
       sessionId: session.id
     })
   }
@@ -69,8 +68,8 @@ const Payment: React.FC<BookingDetailsProps> = ({
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: price.id, quantity: 1 }],
       mode: 'payment',
-      success_url: `http://127.0.0.1:8000/reservation/${bookingData.id}`,
-      cancel_url: `http://127.0.0.1:8000/reservation_failed`
+      success_url: `http://127.0.0.1:8000/reservation_success/${bookingData.id}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://127.0.0.1:8000/reservation_failed/${bookingData.id}`
     })
     return session
   }

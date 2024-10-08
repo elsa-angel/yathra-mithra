@@ -6,14 +6,10 @@ import BusSearchForm from '../Components/BusSearchForm'
 const MovingBus: React.FC = () => {
   return (
     <div id='welcome_root'>
-      {/* <div className='flex justify-center'>
-        <div className='three'>
-          <h1>
-            Style Three
-            <span>Example Tagline Text</span>
-          </h1>
-        </div>
-      </div> */}
+      <div className='wrap'>
+        <h1 className='title'>Yathra Mithra</h1>
+        <h1 className='para'>Your Journey, Just One Tap Away!</h1>
+      </div>
 
       <div id='road'>
         <div id='cloud1'></div>

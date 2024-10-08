@@ -13,7 +13,7 @@ const MyBookings = ({ auth }: PageProps) => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`/bookings/${booking_id}`)
+        const response = await axios.get(`/reservations`)
         console.log('Bookings:', response.data)
         setBookings(response.data)
       } catch (error) {
@@ -26,14 +26,14 @@ const MyBookings = ({ auth }: PageProps) => {
     fetchBookings()
   }, [])
 
-  const handleCancelBooking = async (bookingId: number) => {
-    try {
-      await axios.delete(`/bookings/${booking_id}`)
-      setBookings(bookings.filter((booking) => booking.id !== bookingId))
-    } catch (error) {
-      console.error('Error canceling booking:', error)
-    }
-  }
+  // const handleCancelBooking = async (bookingId: number) => {
+  //   try {
+  //     await axios.delete(`/bookings/${booking_id}`)
+  //     setBookings(bookings.filter((booking) => booking.id !== bookingId))
+  //   } catch (error) {
+  //     console.error('Error canceling booking:', error)
+  //   }
+  // }
 
   if (loading) return <div>Loading...</div>
 
@@ -58,7 +58,8 @@ const MyBookings = ({ auth }: PageProps) => {
                   <th className='py-3 px-4'>Departure</th>
                   <th className='py-3 px-4'>Arrival</th>
                   <th className='py-3 px-4'>Date</th>
-                  <th className='py-3 px-4'>Actions</th>
+                  <th className='py-3 px-4'>Status</th>
+                  <th className='py-3 px-4'>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -72,6 +73,7 @@ const MyBookings = ({ auth }: PageProps) => {
                       <td className='py-3 px-4'>
                         {new Date(booking.date).toLocaleDateString()}
                       </td>
+                      <td className='py-3 px-4'> </td>
                       <td className='py-3 px-4'>
                         <PrimaryButton
                           onClick={() => handleCancelBooking(booking.id)}

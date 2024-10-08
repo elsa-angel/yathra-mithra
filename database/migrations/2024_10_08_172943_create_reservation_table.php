@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('schedule_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('payment_id');
+            $table->char('payment_id');
             $table->char('departure_stop'); // Stops field
             $table->char('departure_time'); // Stops timings field
             $table->char('arrival_stop');

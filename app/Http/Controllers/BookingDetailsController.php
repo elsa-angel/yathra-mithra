@@ -15,7 +15,7 @@ class BookingDetailsController extends Controller
 
             return response()->json($booking);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Schedule not found'], 404);
+            return response()->json(['message' => 'Booking not found'], 404);
         }
     }
 }
