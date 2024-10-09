@@ -39,7 +39,7 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
-    Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
+    Route::post('schedule_search_g', [ScheduleSearchController::class, 'store'])->name('store');
 
 });
 

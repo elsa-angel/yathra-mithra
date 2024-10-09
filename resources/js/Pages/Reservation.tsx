@@ -64,8 +64,8 @@ export default function Reservation({ auth }: PageProps) {
           )}
           {currentStep == 2 && !isBookingLoading && (
             <Payment
+              bookingId={booking_id as number}
               auth={auth}
-              bookingData={bookingData}
               updateCurrentStep={updateCurrentStep}
             />
           )}

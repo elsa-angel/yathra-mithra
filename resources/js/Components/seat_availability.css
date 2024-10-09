@@ -99,11 +99,11 @@ ol {
   }
   input[type='checkbox']:disabled {
     + label {
-      background: #dddddd;
+      background: #8b8888;
       text-indent: -9999px;
       overflow: hidden;
       &:after {
-        content: 'X';
+        content: '✓';
         text-indent: 0;
         position: absolute;
         top: 4px;

@@ -17,6 +17,7 @@ class CreateBusTable extends Migration
             $table->id(); // Adds an auto-incrementing primary key column named 'id'
             $table->char('bus_name', 100); // Adds a CHAR column for bus_name
             $table->integer('num_seats'); // Adds an INT column for num_seats
+            $table->string('reserved_seats'); // Adds an INT column for reserved_seats
             $table->timestamps(); // Adds created_at and updated_at columns
         });
     }

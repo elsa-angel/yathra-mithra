@@ -50,31 +50,60 @@ const MyBookings = ({ auth }: PageProps) => {
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
           <div className='bg-white shadow-md rounded-lg overflow-hidden'>
             <Head title='My Bookings' />
-            <table className='min-w-full'>
+            <table className='w-full bg-white shadow-md rounded-lg overflow-hidden'>
               <thead>
-                <tr className='bg-gray-200 text-gray-700'>
-                  <th className='py-3 px-4'>Booking ID</th>
-                  <th className='py-3 px-4'>Bus Name</th>
-                  <th className='py-3 px-4'>Departure</th>
-                  <th className='py-3 px-4'>Arrival</th>
-                  <th className='py-3 px-4'>Date</th>
-                  <th className='py-3 px-4'>Status</th>
-                  <th className='py-3 px-4'>Action</th>
+                <tr className='bg-gray-200 text-gray-700 uppercase text-xs leading-normal'>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Booking ID
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Bus Name
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Departure
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Arrival
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Date
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Status
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className='text-gray-700 text-sm font-light'>
                 {bookings.length > 0 ? (
-                  bookings.map((booking) => (
-                    <tr key={booking.id} className='border-b'>
-                      <td className='py-3 px-4'>{booking.id}</td>
-                      <td className='py-3 px-4'>{booking.bus_name}</td>
-                      <td className='py-3 px-4'>{booking.departure_stop}</td>
-                      <td className='py-3 px-4'>{booking.arrival_stop}</td>
-                      <td className='py-3 px-4'>
+                  bookings.map((booking, index) => (
+                    <tr
+                      // key={booking.id}
+                      key={index}
+                      className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}
+                    >
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.id}
+                      </td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.bus_name}
+                      </td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.departure_stop.charAt(0).toUpperCase() +
+                          booking.departure_stop.slice(1).toLowerCase()}
+                      </td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.arrival_stop}
+                      </td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
                         {new Date(booking.date).toLocaleDateString()}
                       </td>
-                      <td className='py-3 px-4'> </td>
-                      <td className='py-3 px-4'>
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.status}
+                      </td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
                         <PrimaryButton
                           onClick={() => handleCancelBooking(booking.id)}
                         >

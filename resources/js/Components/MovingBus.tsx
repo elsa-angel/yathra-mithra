@@ -39,7 +39,7 @@ const MovingBus: React.FC = () => {
         <div className='flex justify-center'></div>
 
         <div className='mt-16'>
-          <BusSearchForm />
+          <BusSearchForm isAuthenticated={false} />
         </div>
       </div>
     </div>

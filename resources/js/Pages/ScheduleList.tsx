@@ -53,18 +53,26 @@ const ScheduleList = ({
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
     const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
 
-    const response = await axios.post('/bookings', {
-      schedule_id: schedule.id,
-      user_id: 1, // todo
-      departure_stop: schedule.from,
-      arrival_stop: schedule.to,
-      fare: getFare(schedule),
-      reserved_seats: 'null',
-      departure_time: schedule.time,
-      arrival_time: arrivalTimeAtTo
-    })
+    try {
+      const response = await axios.post('/bookings', {
+        schedule_id: schedule.id,
+        user_id: 1, // todo
+        departure_stop: schedule.from,
+        arrival_stop: schedule.to,
+        fare: getFare(schedule),
+        reserved_seats: 'null',
+        departure_time: schedule.time,
+        arrival_time: arrivalTimeAtTo
+      })
 
-    window.location.href = `/reservation/${response?.data?.booking_id}`
+      window.location.href = `/reservation/${response?.data?.booking_id}`
+    } catch (error: any) {
+      if (error?.response?.status == 401) {
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 2000)
+      }
+    }
   }
 
   return (

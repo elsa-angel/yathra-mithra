@@ -40,7 +40,7 @@ const SeatAvailability: React.FC<Props> = ({
         const booking = await axios.get(`/bookings/${bookingId}`)
 
         setReservedSeats(booking?.data?.reserved_seats)
-        setOccupiedSeats(booking?.data?.schedule?.bus?.occupied_seats)
+        setOccupiedSeats(booking?.data?.schedule?.bus?.reserved_seats)
       } catch (error) {
         console.error('Error fetching reserved seats:', error)
       }
