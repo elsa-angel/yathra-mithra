@@ -43,7 +43,7 @@ const Reservation_Success: React.FC<{ auth: any }> = ({ auth }) => {
       // Prepare data for reservation
       const reservationData = {
         schedule_id: bookingData?.data?.schedule_id,
-        user_id: 1, // todo: replace with actual user id
+        user_id: auth?.user?.id,
         payment_id: stripeSession.id,
         amount: bookingData?.data?.amount,
         status: stripeSession?.payment_status,

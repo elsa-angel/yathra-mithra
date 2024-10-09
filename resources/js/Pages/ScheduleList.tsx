@@ -56,7 +56,7 @@ const ScheduleList = ({
     try {
       const response = await axios.post('/bookings', {
         schedule_id: schedule.id,
-        user_id: 1, // todo
+        user_id: auth?.user?.id,
         departure_stop: schedule.from,
         arrival_stop: schedule.to,
         fare: getFare(schedule),
