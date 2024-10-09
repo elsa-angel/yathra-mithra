@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Models\Schedule;
+use App\Models\Bus;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -23,7 +25,7 @@ class ReservationController extends Controller
             'arrival_time' => 'required|date_format:H:i',
         ]);
 
-        // Create a new booking record
+        // Create a new reservation record
         $reservation = Reservation::create([
             'schedule_id' => $request->schedule_id,
             'user_id' => $request->user_id,
@@ -37,6 +39,23 @@ class ReservationController extends Controller
             'departure_time' => $request->departure_time,
             'arrival_time' => $request->arrival_time,
         ]);
+
+        // Update the bus table with reserved seats
+        $schedule = Schedule::find($request->schedule_id);
+
+        if ($schedule) {
+            $bus = Bus::find($schedule->bus_id);
+
+            if ($bus) {
+                // Calculate the new reserved seats
+                $bus->reserved_seats .= ',' . $request->reserved_seats; // Adjust this as needed for your format
+                $bus->save();
+            } else {
+                return response()->json(['error' => 'Bus not found'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'Schedule not found'], 404);
+        }
 
         // Optionally, you can return a response, like a redirect or a JSON response
         return response()->json([

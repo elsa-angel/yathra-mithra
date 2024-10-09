@@ -1,9 +1,5 @@
 import { Link, Head } from '@inertiajs/react'
 import { PageProps } from '@/types'
-import { useState } from 'react'
-import InputLabel from '@/Components/InputLabel'
-import TextInput from '@/Components/TextInput'
-import BusSearchForm from '../Components/BusSearchForm'
 import MovingBus from '@/Components/MovingBus'
 
 export default function Welcome({

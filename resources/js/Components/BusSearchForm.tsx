@@ -11,7 +11,10 @@ import ScheduleList from '@/Pages/ScheduleList'
 
 let schedules: any = []
 
-export default function BusSearchForm({ auth } /*props here*/ : PageProps) {
+export default function BusSearchForm({
+  isAuthenticated,
+  auth
+} /*props here*/ : PageProps) {
   const [formData, setFormData] = useState({
     from: 'a',
     to: 'c',
@@ -47,7 +50,10 @@ export default function BusSearchForm({ auth } /*props here*/ : PageProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const response = await axios.post('/schedule_search', formData)
+    const response = await axios.post(
+      isAuthenticated ? '/schedule_search' : '/schedule_search_g',
+      formData
+    )
 
     if (response?.data) {
       schedules = response.data

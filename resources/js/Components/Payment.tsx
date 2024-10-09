@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import PrimaryButton from '@/Components/PrimaryButton'
@@ -6,28 +6,44 @@ import { loadStripe } from '@stripe/stripe-js'
 
 import Stripe from 'stripe'
 import LoadingBar from 'react-top-loading-bar'
+import axios from 'axios'
 
 interface BookingDetailsProps {
-  bookingData: any
+  bookingId: number
   auth: { user: any }
   updateCurrentStep: (step: number) => void
 }
 
 const Payment: React.FC<BookingDetailsProps> = ({
-  bookingData,
+  bookingId,
   auth,
   updateCurrentStep
 }) => {
-  let busId = bookingData?.schedule?.bus?.id
-  let from = bookingData.departure_stop
-  let to = bookingData.arrival_stop
-  let time = bookingData.departure_time
-  let totalAmount = bookingData.amount
+  const [bookingData, setBookingData] = useState(null)
 
+  const getBookingDetails = async () => {
+    try {
+      const response = await axios.get(`/bookings/${bookingId}`)
+      setBookingData(response.data)
+    } catch (error) {
+      console.error('Error occurred', error)
+    }
+  }
+
+  useEffect(() => {
+    getBookingDetails()
+  }, [bookingId])
+
+  const BOOKING = bookingData as any
+
+  let busId = BOOKING?.schedule?.bus?.id
+  let from = BOOKING?.departure_stop
+  let to = BOOKING?.arrival_stop
+  let time = BOOKING?.departure_time
+  let amount = BOOKING?.amount
+  let num_reserved_seats = parseInt(BOOKING?.reserved_seats?.split(',')?.length)
+  let totalAmount = amount * num_reserved_seats
   const makePayment = async () => {
-    // console.log(process.env.STRIPE_PUBLIC_KEY)
-
-    // const stripe = await loadStripe(process.env.STRIPE_PUBLIC_KEY)
     updateProgress(30)
     const stripe = await loadStripe(
       'pk_test_51Q3wbuIMqVOQVQ5ADpdbpZYftHwMsC4gnTkN21xgQp6CgExTuxvhvXNv85xjLnaElL8rVrokgWeiRGpeFRc6QgWP00x0FwRJx6'
@@ -68,8 +84,8 @@ const Payment: React.FC<BookingDetailsProps> = ({
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: price.id, quantity: 1 }],
       mode: 'payment',
-      success_url: `http://127.0.0.1:8000/reservation_success/${bookingData.id}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://127.0.0.1:8000/reservation_failed/${bookingData.id}`
+      success_url: `http://127.0.0.1:8000/reservation_success/${BOOKING.id}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://127.0.0.1:8000/reservation_failed/${BOOKING.id}`
     })
     return session
   }
@@ -111,7 +127,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
         </div>
         <div className='flex justify-between'>
           <span className='font-semibold'>Total Amount:</span>
-          <span>&nbsp;{totalAmount}</span>
+          <span>&nbsp;₹{totalAmount}</span>
         </div>
         <PrimaryButton className='mr-4' onClick={() => updateCurrentStep(1)}>
           Go Back

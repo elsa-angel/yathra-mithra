@@ -58,7 +58,7 @@ export default function ({ auth }: PageProps) {
           </div>
         )}
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
-          <BusSearchForm auth={auth} />
+          <BusSearchForm isAuthenticated={true} auth={auth} />
         </div>
       </div>
     </AuthenticatedLayout>

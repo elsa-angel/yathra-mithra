@@ -81,6 +81,7 @@ const Reservation_Success: React.FC<{ auth: any }> = ({ auth }) => {
           <div className='message-box _success'>
             <h2>Your payment was successful</h2>
             <p>Thank you for your payment.</p>
+            <br></br>
             <div>
               <Link
                 href={route('my_bookings')}
