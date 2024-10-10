@@ -88,20 +88,22 @@ const MyBookings = ({ auth }: PageProps) => {
                         {booking.id}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
-                        {booking.bus_name}
+                        {booking.schedule.bus.bus_name}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {booking.departure_stop.charAt(0).toUpperCase() +
                           booking.departure_stop.slice(1).toLowerCase()}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
-                        {booking.arrival_stop}
+                        {booking.arrival_stop.charAt(0).toUpperCase() +
+                          booking.arrival_stop.slice(1).toLowerCase()}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {new Date(booking.date).toLocaleDateString()}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
-                        {booking.status}
+                        {booking.status.charAt(0).toUpperCase() +
+                          booking.status.slice(1).toLowerCase()}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         <PrimaryButton

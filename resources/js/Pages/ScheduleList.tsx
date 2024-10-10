@@ -88,6 +88,9 @@ const ScheduleList = ({
                   <thead>
                     <tr className='bg-gray-200 text-gray-700 uppercase text-xs leading-normal'>
                       <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                        Bus Name
+                      </th>
+                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
                         Departure
                       </th>
                       <th className='py-3 px-4 border-b border-gray-200 text-left'>
@@ -114,10 +117,15 @@ const ScheduleList = ({
                           }
                         >
                           <td className='py-3 px-4 border-b border-gray-200'>
-                            {schedule.from}
+                            {schedule.bus_details.bus_name}
                           </td>
                           <td className='py-3 px-4 border-b border-gray-200'>
-                            {schedule.to}
+                            {schedule.from.charAt(0).toUpperCase() +
+                              schedule.from.slice(1).toLowerCase()}
+                          </td>
+                          <td className='py-3 px-4 border-b border-gray-200'>
+                            {schedule.to.charAt(0).toUpperCase() +
+                              schedule.to.slice(1).toLowerCase()}
                           </td>
                           <td className='py-3 px-4 border-b border-gray-200'>
                             {getDuration(schedule)}

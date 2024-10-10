@@ -36,10 +36,11 @@ const Payment: React.FC<BookingDetailsProps> = ({
 
   const BOOKING = bookingData as any
 
-  let busId = BOOKING?.schedule?.bus?.id
+  let busName = BOOKING?.schedule?.bus?.bus_name
   let from = BOOKING?.departure_stop
   let to = BOOKING?.arrival_stop
-  let time = BOOKING?.departure_time
+  let departure_time = BOOKING?.departure_time
+  let arrival_time = BOOKING?.arrival_time
   let amount = BOOKING?.amount
   let num_reserved_seats = parseInt(BOOKING?.reserved_seats?.split(',')?.length)
   let totalAmount = amount * num_reserved_seats
@@ -110,20 +111,24 @@ const Payment: React.FC<BookingDetailsProps> = ({
 
       <div className='space-y-4'>
         <div className='flex justify-between'>
-          <span className='font-semibold'>Bus ID:</span>
-          <span>{busId}</span>
+          <span className='font-semibold'>Bus Name:</span>
+          <span>{busName}</span>
         </div>
         <div className='flex justify-between'>
-          <span className='font-semibold'>From:</span>
+          <span className='font-semibold'>Depature:</span>
           <span>{from}</span>
         </div>
         <div className='flex justify-between'>
-          <span className='font-semibold'>To:</span>
+          <span className='font-semibold'>Arrival:</span>
           <span>{to}</span>
         </div>
         <div className='flex justify-between'>
-          <span className='font-semibold'>Time:</span>
-          <span>{time}</span>
+          <span className='font-semibold'>Departure Time:</span>
+          <span>{departure_time}</span>
+        </div>
+        <div className='flex justify-between'>
+          <span className='font-semibold'>Arrival Time:</span>
+          <span>{arrival_time}</span>
         </div>
         <div className='flex justify-between'>
           <span className='font-semibold'>Total Amount:</span>
@@ -146,6 +151,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
         <div className='flex flex-col justify-start' style={{ height: '100%' }}>
           <div className='border border-gray-300 dark:border-gray-700 rounded-lg p-4'>
             {/* Picture */}
+            https://buy.stripe.com/test_eVa29l8KK7MB5OM6oo
             <img
               src='travel.webp'
               alt='Description of the image'
