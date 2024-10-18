@@ -69,7 +69,7 @@ const ScheduleList = ({
     } catch (error: any) {
       if (error?.response?.status == 401) {
         setTimeout(() => {
-          window.location.href = '/login'
+          window.location.replace('/login')
         }, 2000)
       }
     }

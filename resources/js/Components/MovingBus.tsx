@@ -7,8 +7,8 @@ const MovingBus: React.FC = () => {
   return (
     <div id='welcome_root'>
       <div className='wrap'>
-        <h1 className='title'>Yathra Mithra</h1>
-        <h1 className='para'>Your Journey, Just One Tap Away!</h1>
+        <h1 className='titlefront'>Yathra Mithra</h1>
+        <h1 className='parafront'>Your Journey, Just One Tap Away!</h1>
       </div>
 
       <div id='road'>
