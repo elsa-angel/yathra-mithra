@@ -67,9 +67,19 @@ class ReservationController extends Controller
     public function show()
     {
         try {
-            $reservations = Reservation::where('user_id', 1)
+            // Get the currently authenticated user
+            $user = auth()->user();
+
+            // Check if the user is authenticated
+            if (!$user) {
+                return response()->json(['error' => 'User not authenticated'], 401);
+            }
+
+            // Retrieve reservations for the authenticated user
+            $reservations = Reservation::where('user_id', $user->id)
                 ->with('schedule.bus')
                 ->get();
+
             return response()->json($reservations);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Reservation not found'], 404);

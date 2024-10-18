@@ -364,14 +364,16 @@
   margin: 0 auto;
 }
 
-.title {
+.titlefront {
   font-size: 8em;
-  font-family: 'IM Fell Great Primer';
+  font-family: Delius;
+  font-weight: 400;
+  font-style: normal;
   position: relative;
-  color: #fff;
+  color: #444444;
 }
 
-.para {
+.parafront {
   font-size: 2em;
   font-family: 'IM Fell Great Primer';
   position: relative;

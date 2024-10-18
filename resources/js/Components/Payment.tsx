@@ -151,7 +151,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
         <div className='flex flex-col justify-start' style={{ height: '100%' }}>
           <div className='border border-gray-300 dark:border-gray-700 rounded-lg p-4'>
             {/* Picture */}
-            https://buy.stripe.com/test_eVa29l8KK7MB5OM6oo
+
             <img
               src='travel.webp'
               alt='Description of the image'
