@@ -35,7 +35,7 @@ const MyBookings = ({ auth }: PageProps) => {
   //   }
   // }
 
-  if (loading) return <div>Loading...</div>
+  // if (loading) return <div>Loading...</div>
 
   return (
     <AuthenticatedLayout
@@ -47,8 +47,9 @@ const MyBookings = ({ auth }: PageProps) => {
       }
     >
       <div className='py-12'>
-        <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
-          <div className='bg-white shadow-md rounded-lg overflow-hidden'>
+        <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6'>
+          <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
+            {' '}
             <Head title='My Bookings' />
             <table className='w-full bg-white shadow-md rounded-lg overflow-hidden'>
               <thead>
@@ -67,6 +68,9 @@ const MyBookings = ({ auth }: PageProps) => {
                   </th>
                   <th className='py-3 px-4 border-b border-gray-200 text-left'>
                     Date
+                  </th>
+                  <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                    Amount
                   </th>
                   <th className='py-3 px-4 border-b border-gray-200 text-left'>
                     Status
@@ -93,14 +97,18 @@ const MyBookings = ({ auth }: PageProps) => {
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {booking.departure_stop.charAt(0).toUpperCase() +
                           booking.departure_stop.slice(1).toLowerCase()}
+                        &nbsp; ({booking.departure_time})
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {booking.arrival_stop.charAt(0).toUpperCase() +
                           booking.arrival_stop.slice(1).toLowerCase()}
+                        &nbsp; ({booking.arrival_time})
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
-                        {new Date(booking.date).toLocaleDateString()}
+                        {/* {new Date(booking.date).toLocaleDateString()} */}
+                        {booking.booking_date}
                       </td>
+                      <td>{booking.amount}</td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {booking.status.charAt(0).toUpperCase() +
                           booking.status.slice(1).toLowerCase()}

@@ -15,7 +15,7 @@ class ReservationController extends Controller
         $request->validate([
             'schedule_id' => 'required|numeric|exists:schedule,id',
             'user_id' => 'required|numeric|exists:users,id',
-            'payment_id' => 'required|string',
+            'payment_id' => 'required|string|unique:reservation,payment_id',
             'amount' => 'required|numeric',
             'status' => 'required|string',
             'reserved_seats' => 'required|string',
@@ -23,6 +23,7 @@ class ReservationController extends Controller
             'arrival_stop' => 'required|string',
             'departure_time' => 'required|date_format:H:i',
             'arrival_time' => 'required|date_format:H:i',
+            'booking_date' => 'required|string',
         ]);
 
         // Create a new reservation record
@@ -38,6 +39,7 @@ class ReservationController extends Controller
             'arrival_stop' => $request->arrival_stop,
             'departure_time' => $request->departure_time,
             'arrival_time' => $request->arrival_time,
+            'booking_date' => $request->booking_date,
         ]);
 
         // Update the bus table with reserved seats

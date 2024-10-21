@@ -52,7 +52,8 @@ const Reservation_Success: React.FC<{ auth: any }> = ({ auth }) => {
         arrival_stop: bookingData?.data?.arrival_stop,
         arrival_time: bookingData?.data?.arrival_time,
         qr_code: 'null',
-        reserved_seats: bookingData?.data?.reserved_seats
+        reserved_seats: bookingData?.data?.reserved_seats,
+        booking_date: bookingData?.data?.booking_date
       }
 
       // Make the reservation

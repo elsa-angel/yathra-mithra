@@ -5,6 +5,9 @@ import { useState } from 'react'
 import SeatAvailability from '../Components/SeatAvailability'
 import axios from 'axios'
 
+import toastr from 'toastr'
+import 'toastr/build/toastr.min.css'
+
 const ScheduleList = ({
   auth,
   schedules
@@ -52,11 +55,12 @@ const ScheduleList = ({
 
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
     const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
-
+    debugger
     try {
       const response = await axios.post('/bookings', {
         schedule_id: schedule.id,
         user_id: auth?.user?.id,
+        booking_date: schedule?.date,
         departure_stop: schedule.from,
         arrival_stop: schedule.to,
         fare: getFare(schedule),
@@ -68,6 +72,12 @@ const ScheduleList = ({
       window.location.href = `/reservation/${response?.data?.booking_id}`
     } catch (error: any) {
       if (error?.response?.status == 401) {
+        toastr.options = {
+          positionClass: 'toast-top-center'
+        }
+
+        Command: toastr['warning']('Oops! Please login to continue...')
+
         setTimeout(() => {
           window.location.replace('/login')
         }, 2000)
