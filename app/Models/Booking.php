@@ -15,7 +15,8 @@ class Booking extends Model
         'departure_stop',
         'arrival_stop',
         'departure_time',
-        'arrival_time'
+        'arrival_time',
+        'booking_date'
     ];
 
     public function schedule()

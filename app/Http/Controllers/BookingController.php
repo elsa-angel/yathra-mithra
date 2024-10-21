@@ -18,6 +18,7 @@ class BookingController extends Controller
             'arrival_stop' => 'required|string',
             'departure_time' => 'required|date_format:H:i',
             'arrival_time' => 'required|date_format:H:i',
+            'booking_date' => 'required|string',
         ]);
 
         // Create a new booking record
@@ -30,6 +31,7 @@ class BookingController extends Controller
             'arrival_stop' => $request->arrival_stop,
             'departure_time' => $request->departure_time,
             'arrival_time' => $request->arrival_time,
+            'booking_date' => $request->booking_date,
         ]);
 
         // Optionally, you can return a response, like a redirect or a JSON response
@@ -51,6 +53,7 @@ class BookingController extends Controller
             'arrival_stop' => 'nullable|string|max:255',
             'departure_time' => 'nullable|date_format:H:i',
             'arrival_time' => 'nullable|date_format:H:i',
+
         ]);
 
         // Find the booking
@@ -65,7 +68,8 @@ class BookingController extends Controller
             'departure_stop',
             'arrival_stop',
             'departure_time',
-            'arrival_time'
+            'arrival_time',
+
         ]));
 
         // Return a response

@@ -18,7 +18,9 @@ class Reservation extends Model
         'arrival_stop',
         'departure_time',
         'arrival_time',
-        'reserved_seats'
+        'reserved_seats',
+        'booking_date'
+
     ];
 
     public function schedule()
