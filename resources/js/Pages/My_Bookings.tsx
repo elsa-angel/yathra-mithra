@@ -5,10 +5,15 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head, usePage } from '@inertiajs/react'
+import ConfirmDialogue from '@/Components/ConfirmDialogue'
 
 const MyBookings = ({ auth }: PageProps) => {
   const [bookings, setBookings] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [bookingIdToCancel, setBookingIdToCancel] = useState<number | null>(
+    null
+  )
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -19,23 +24,38 @@ const MyBookings = ({ auth }: PageProps) => {
       } catch (error) {
         console.error('Error fetching bookings:', error)
       } finally {
-        setLoading(false)
+        // setLoading(false)
       }
     }
 
     fetchBookings()
   }, [])
 
-  // const handleCancelBooking = async (bookingId: number) => {
-  //   try {
-  //     await axios.delete(`/bookings/${booking_id}`)
-  //     setBookings(bookings.filter((booking) => booking.id !== bookingId))
-  //   } catch (error) {
-  //     console.error('Error canceling booking:', error)
-  //   }
-  // }
+  const handleCancelBooking = async (bookingId: number) => {
+    setBookingIdToCancel(bookingId) // Set the booking ID to cancel
+    setShowConfirm(true) // Show confirmation dialog
+  }
+  const handleConfirmCancellation = async () => {
+    if (bookingIdToCancel) {
+      try {
+        await axios.delete(`/reservations/${bookingIdToCancel}`)
+        setBookings(
+          bookings.filter((booking) => booking.id !== bookingIdToCancel)
+        )
+        console.log('Booking cancelled')
+      } catch (error) {
+        console.error('Error canceling booking:', error)
+      } finally {
+        setShowConfirm(false) // Close the dialog
+        setBookingIdToCancel(null) // Reset booking ID
+      }
+    }
+  }
 
-  // if (loading) return <div>Loading...</div>
+  const handleCancel = () => {
+    setShowConfirm(false) // Close the dialog without cancellation
+    setBookingIdToCancel(null) // Reset booking ID
+  }
 
   return (
     <AuthenticatedLayout
@@ -46,6 +66,12 @@ const MyBookings = ({ auth }: PageProps) => {
         </h2>
       }
     >
+      {showConfirm && (
+        <ConfirmDialogue
+          onConfirm={handleConfirmCancellation}
+          onCancel={handleCancel}
+        />
+      )}
       <div className='py-12'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6'>
           <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
@@ -108,17 +134,23 @@ const MyBookings = ({ auth }: PageProps) => {
                         {/* {new Date(booking.date).toLocaleDateString()} */}
                         {booking.booking_date}
                       </td>
-                      <td>{booking.amount}</td>
+                      <td className='py-3 px-4 border-b border-gray-200'>
+                        {booking.amount}
+                      </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
                         {booking.status.charAt(0).toUpperCase() +
                           booking.status.slice(1).toLowerCase()}
                       </td>
                       <td className='py-3 px-4 border-b border-gray-200'>
-                        <PrimaryButton
-                          onClick={() => handleCancelBooking(booking.id)}
-                        >
-                          Cancel
-                        </PrimaryButton>
+                        {booking.status === 'paid' ? (
+                          <PrimaryButton
+                            onClick={() => handleCancelBooking(booking.id)}
+                          >
+                            Cancel
+                          </PrimaryButton>
+                        ) : (
+                          '--'
+                        )}
                       </td>
                     </tr>
                   ))
