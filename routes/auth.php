@@ -79,6 +79,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('reservations', [ReservationController::class, 'show'])->name('show');
 
+    Route::delete('reservations/{id}', [ReservationController::class, 'destroy'])->name('destroy');
+
+    Route::get('transactions', [ReservationController::class, 'showTransactions'])->name('showTransactions');
+
+
+    // Route::delete('reservations/{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 
 
     // GET /users

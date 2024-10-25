@@ -55,7 +55,7 @@ const ScheduleList = ({
 
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
     const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
-    debugger
+    // debugger
     try {
       const response = await axios.post('/bookings', {
         schedule_id: schedule.id,
