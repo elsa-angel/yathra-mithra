@@ -6,6 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import Stripe from 'stripe'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import QRCode from 'react-qr-code'
 
 const Reservation_Success: React.FC<{ auth: any }> = ({ auth }) => {
   // Fetch Stripe Session data using passed session_id in query params
@@ -110,6 +111,23 @@ const Reservation_Success: React.FC<{ auth: any }> = ({ auth }) => {
                   d='M14.1 27.2l7.1 7.2 16.7-16.8'
                 />
               </svg>
+            </div>
+            <br />
+            <br />
+            <div
+              style={{
+                height: 'auto',
+                margin: '0 auto',
+                maxWidth: 128,
+                width: '100%'
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+                value={sessionId as string}
+                viewBox={`0 0 256 256`}
+              />
             </div>
           </div>
         </div>

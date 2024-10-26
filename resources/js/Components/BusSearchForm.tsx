@@ -1,6 +1,6 @@
 import { Link, Head, useForm } from '@inertiajs/react'
 import { PageProps } from '@/types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import InputLabel from '@/Components/InputLabel'
 import TextInput from '@/Components/TextInput'
 import axios from 'axios'
@@ -16,10 +16,14 @@ export default function BusSearchForm({
   auth
 } /*props here*/ : PageProps) {
   const [formData, setFormData] = useState({
-    from: 'a',
-    to: 'c',
-    date: new Date().toLocaleDateString('en-CA'),
-    time: '09:00' || moment().format('HH:mm')
+    // from: 'a',
+    // to: 'c',
+    // date: new Date().toLocaleDateString('en-CA'),
+    // time: '09:00' || moment().format('HH:mm')
+    from: '',
+    to: '',
+    date: '',
+    time: ''
   })
 
   const [formErrors, setFormErrors] = useState({
@@ -56,11 +60,20 @@ export default function BusSearchForm({
     )
 
     if (response?.data) {
+      debugger
       schedules = response.data
       setSchedulesAvailable(true)
-      // navigate('/schedule_list')
+      navigate('/schedule_list')
     }
   }
+  const [currentTime, setCurrentTime] = useState('')
+
+  useEffect(() => {
+    const now = new Date()
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    setCurrentTime(`${hours}:${minutes}`)
+  }, [])
 
   return (
     <div className='mt-16'>
@@ -139,6 +152,7 @@ export default function BusSearchForm({
                 className='form-input mt-1 block w-full'
                 value={formData.time}
                 onChange={handleChange}
+                min={currentTime}
                 required
               />
             </div>

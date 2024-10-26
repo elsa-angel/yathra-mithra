@@ -25,7 +25,8 @@ class ScheduleSearchController extends Controller
 
         $schedules = Schedule::where(function ($query) use ($data) {
             $query->where('stops', 'like', "%{$data['from']}%")
-                ->where('stops', 'like', "%{$data['to']}%");
+                ->where('stops', 'like', "%{$data['to']}%")
+                ->whereRaw("FIND_IN_SET('{$data['from']}', stops) < FIND_IN_SET('{$data['to']}', stops)");
         })
             ->where(function ($query) use ($dayOfWeek) {
                 $query->where('running_days', 'like', '%' . $dayOfWeek . '%');
