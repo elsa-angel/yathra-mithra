@@ -58,7 +58,7 @@ export default function BusSearchForm({
     if (response?.data) {
       schedules = response.data
       setSchedulesAvailable(true)
-      navigate('/schedule_list')
+      // navigate('/schedule_list')
     }
   }
 

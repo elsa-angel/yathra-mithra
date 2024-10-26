@@ -14,7 +14,7 @@ export default function Welcome({
           {auth.user ? (
             <Link
               href={route('dashboard')}
-              className='font-semibold text-2xl text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500'
+              className='font-semibold text-2xl text-white hover:text-gray-700 dark:text-gray-300 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-white'
             >
               Dashboard
             </Link>
@@ -22,14 +22,14 @@ export default function Welcome({
             <>
               <Link
                 href={route('login')}
-                className='font-semibold text-2xl text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500'
+                className='font-semibold text-2xl text-white hover:text-gray-700 dark:text-gray-300 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-white'
               >
                 Log in
               </Link>
 
               <Link
                 href={route('register')}
-                className='ms-4 text-2xl font-semibold text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500'
+                className='ms-4 text-2xl font-semibold text-white hover:text-gray-700 dark:text-gray-300 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-white'
               >
                 Register
               </Link>
