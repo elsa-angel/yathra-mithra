@@ -23,12 +23,17 @@ const MyBookings = ({ auth }: PageProps) => {
         setBookings(response.data)
       } catch (error) {
         console.error('Error fetching bookings:', error)
-      } finally {
-        // setLoading(false)
       }
     }
 
+    // Fetch bookings initially
     fetchBookings()
+
+    // Set up interval to fetch bookings every minute
+    const intervalId = setInterval(fetchBookings, 60000) // 60000 ms = 1 minute
+
+    // Cleanup function to clear the interval
+    return () => clearInterval(intervalId)
   }, [])
 
   const handleCancelBooking = async (bookingId: number) => {

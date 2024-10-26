@@ -12,9 +12,6 @@ const ScheduleList = ({
   auth,
   schedules
 }: PageProps & { schedules: any[] }) => {
-  const [isSeatReservationVisible, setSeatReservationVisible] = useState(false)
-  const [selectedSchedule, setSelectedSchedule] = useState(null)
-
   const getDuration = (schedule: any) => {
     const indexOfFrom = schedule.stops.split(',').indexOf(schedule.from)
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
@@ -55,7 +52,7 @@ const ScheduleList = ({
 
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
     const arrivalTimeAtTo = schedule.stops_timings.split(',')[indexOfTo]
-    // debugger
+
     try {
       const response = await axios.post('/bookings', {
         schedule_id: schedule.id,
@@ -86,90 +83,80 @@ const ScheduleList = ({
   }
 
   return (
-    <div className=''>
-      {isSeatReservationVisible ? (
-        <SeatAvailability auth={auth} schedules={selectedSchedule} /> // Pass the selected schedule if needed
-      ) : (
-        <div className=''>
-          <div className='bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg'>
-            <div className='p-6 text-gray-900 dark:text-gray-100'>
-              <div className='overflow-x-auto mt-4'>
-                <table className='w-full bg-white shadow-md rounded-lg overflow-hidden'>
-                  <thead>
-                    <tr className='bg-gray-200 text-gray-700 uppercase text-xs leading-normal'>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Bus Name
-                      </th>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Departure
-                      </th>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Arrival
-                      </th>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Total Duration
-                      </th>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Fare
-                      </th>
-                      <th className='py-3 px-4 border-b border-gray-200 text-left'>
-                        Book
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className='text-gray-700 text-sm font-light'>
-                    {schedules?.length > 0 ? (
-                      schedules?.map((schedule, index) => (
-                        <tr
-                          key={index}
-                          className={
-                            index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
-                          }
-                        >
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            {schedule.bus_details.bus_name}
-                          </td>
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            {schedule.from.charAt(0).toUpperCase() +
-                              schedule.from.slice(1).toLowerCase()}
-                          </td>
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            {schedule.to.charAt(0).toUpperCase() +
-                              schedule.to.slice(1).toLowerCase()}
-                          </td>
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            {getDuration(schedule)}
-                          </td>
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            ₹{getFare(schedule)}
-                          </td>
-                          <td className='py-3 px-4 border-b border-gray-200'>
-                            <PrimaryButton
-                              className='ms-4'
-                              onClick={() => handleBookNow(schedule)}
-                            >
-                              Book Now
-                            </PrimaryButton>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={5}
-                          className='py-3 px-4 text-center border-b border-gray-200'
-                        >
-                          No schedules found matching your criteria.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+    <div className='bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg'>
+      <div className='p-6 text-gray-900 dark:text-gray-100'>
+        <div className='overflow-x-auto mt-4'>
+          <table className='w-full bg-white shadow-md rounded-lg overflow-hidden'>
+            <thead>
+              <tr className='bg-gray-200 text-gray-700 uppercase text-xs leading-normal'>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Bus Name
+                </th>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Departure
+                </th>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Arrival
+                </th>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Total Duration
+                </th>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Fare
+                </th>
+                <th className='py-3 px-4 border-b border-gray-200 text-left'>
+                  Book
+                </th>
+              </tr>
+            </thead>
+            <tbody className='text-gray-700 text-sm font-light'>
+              {schedules?.length > 0 ? (
+                schedules?.map((schedule, index) => (
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}
+                  >
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      {schedule.bus_details.bus_name}
+                    </td>
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      {schedule.from.charAt(0).toUpperCase() +
+                        schedule.from.slice(1).toLowerCase()}
+                    </td>
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      {schedule.to.charAt(0).toUpperCase() +
+                        schedule.to.slice(1).toLowerCase()}
+                    </td>
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      {getDuration(schedule)}
+                    </td>
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      ₹{getFare(schedule)}
+                    </td>
+                    <td className='py-3 px-4 border-b border-gray-200'>
+                      <PrimaryButton
+                        className='ms-4'
+                        onClick={() => handleBookNow(schedule)}
+                      >
+                        Book Now
+                      </PrimaryButton>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className='py-3 px-4 text-center border-b border-gray-200'
+                  >
+                    No schedules found matching your criteria.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
     </div>
   )
 }
