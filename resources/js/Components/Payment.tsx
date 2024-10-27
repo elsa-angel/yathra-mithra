@@ -101,7 +101,8 @@ const Payment: React.FC<BookingDetailsProps> = ({
   }
 
   return (
-    <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
+    // <div className='p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col sm:flex-row items-start'>
+    <div className='p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg flex flex-col items-center justify-center max-w-md mx-auto'>
       <Head title='Payment' />
       <LoadingBar
         color='blue'
@@ -109,7 +110,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
         onLoaderFinished={() => setProgress(0)}
       />
 
-      <div className='space-y-4'>
+      <div className='space-y-6'>
         <div className='flex justify-between'>
           <span className='font-semibold'>Bus Name:</span>
           <span>{busName}</span>
@@ -144,14 +145,14 @@ const Payment: React.FC<BookingDetailsProps> = ({
           Pay Now
         </PrimaryButton>
       </div>
-      <div
+      {/* Picture*/}
+
+      {/* <div
         className='sm:w-64 mt-8 sm:mt-0 flex justify-center mx-auto'
         style={{ flex: '1' }}
       >
         <div className='flex flex-col justify-start' style={{ height: '100%' }}>
           <div className='border border-gray-300 dark:border-gray-700 rounded-lg p-4'>
-            {/* Picture */}
-
             <img
               src='travel.webp'
               alt='Description of the image'
@@ -160,7 +161,7 @@ const Payment: React.FC<BookingDetailsProps> = ({
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

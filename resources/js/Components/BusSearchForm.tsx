@@ -8,6 +8,7 @@ import moment from 'moment'
 
 import { useNavigate } from 'react-router-dom'
 import ScheduleList from '@/Pages/ScheduleList'
+import PrimaryButton from './PrimaryButton'
 
 let schedules: any = []
 
@@ -16,14 +17,14 @@ export default function BusSearchForm({
   auth
 } /*props here*/ : PageProps) {
   const [formData, setFormData] = useState({
-    // from: 'a',
-    // to: 'c',
-    // date: new Date().toLocaleDateString('en-CA'),
-    // time: '09:00' || moment().format('HH:mm')
-    from: '',
-    to: '',
-    date: '',
-    time: ''
+    from: 'a',
+    to: 'c',
+    date: new Date().toLocaleDateString('en-CA'),
+    time: '09:00' || moment().format('HH:mm')
+    // from: '',
+    // to: '',
+    // date: '',
+    // time: ''
   })
 
   const [formErrors, setFormErrors] = useState({
@@ -66,14 +67,23 @@ export default function BusSearchForm({
       navigate('/schedule_list')
     }
   }
-  const [currentTime, setCurrentTime] = useState('')
 
-  useEffect(() => {
+  const getMinTime = (selectedDate: any) => {
     const now = new Date()
-    const hours = String(now.getHours()).padStart(2, '0')
-    const minutes = String(now.getMinutes()).padStart(2, '0')
-    setCurrentTime(`${hours}:${minutes}`)
-  }, [])
+    const today = new Date().toISOString().split('T')[0]
+
+    // Create a new date object for the minimum time (5 minutes from now)
+    const minTime = new Date(now.getTime() + 5 * 60 * 1000)
+    const minTimeString = minTime.toTimeString().split(' ')[0].substring(0, 5)
+
+    if (selectedDate === today) {
+      // If today's date is selected, return the minimum time (5 minutes from now)
+      return minTimeString
+    }
+
+    // For any future date, return the earliest time (00:00)
+    return '00:00'
+  }
 
   return (
     <div className='mt-16'>
@@ -152,7 +162,7 @@ export default function BusSearchForm({
                 className='form-input mt-1 block w-full'
                 value={formData.time}
                 onChange={handleChange}
-                min={currentTime}
+                min={getMinTime(formData.date)}
                 required
               />
             </div>
