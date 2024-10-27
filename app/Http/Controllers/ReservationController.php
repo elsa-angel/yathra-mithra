@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketGenerated;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\Bus;
@@ -9,11 +10,13 @@ use App\Models\Transaction;
 use App\Models\Ewallet;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Mail;
 
 class ReservationController extends Controller
 {
     public function store(Request $request)
     {
+
         $request->validate([
             'schedule_id' => 'required|numeric|exists:schedule,id',
             'user_id' => 'required|numeric|exists:users,id',
@@ -60,6 +63,14 @@ class ReservationController extends Controller
         } else {
             return response()->json(['error' => 'Schedule not found'], 404);
         }
+
+        // // Send Email
+
+        $user = auth()->user();
+
+        Mail::to($user->email)->send(
+            new TicketGenerated($reservation, $user)
+        );
 
         // Optionally, you can return a response, like a redirect or a JSON response
         return response()->json([
