@@ -9,6 +9,10 @@ export default defineConfig({
       ssr: 'resources/js/ssr.tsx',
       refresh: true
     }),
+    
     react()
-  ]
+  ],
+  build: {
+    outDir: 'public/build',  // Ensure this matches your Laravel build directory
+  },
 })

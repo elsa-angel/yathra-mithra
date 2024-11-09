@@ -8,23 +8,18 @@ import moment from 'moment'
 
 import { useNavigate } from 'react-router-dom'
 import ScheduleList from '@/Pages/ScheduleList'
-import PrimaryButton from './PrimaryButton'
 
 let schedules: any = []
 
 export default function BusSearchForm({
   isAuthenticated,
   auth
-} /*props here*/ : PageProps) {
+} /*props here*/ : any) {
   const [formData, setFormData] = useState({
-    from: 'a',
-    to: 'c',
+    from: '',
+    to: '',
     date: new Date().toLocaleDateString('en-CA'),
-    time: '09:00' || moment().format('HH:mm')
-    // from: '',
-    // to: '',
-    // date: '',
-    // time: ''
+    time: moment().format('HH:mm')
   })
 
   const [formErrors, setFormErrors] = useState({

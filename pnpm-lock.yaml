@@ -35,6 +35,9 @@ dependencies:
   toastr:
     specifier: ^2.1.4
     version: 2.1.4
+  ziggy-js:
+    specifier: ^2.3.1
+    version: 2.3.1
 
 devDependencies:
   '@headlessui/react':
@@ -1697,6 +1700,11 @@ packages:
     dependencies:
       side-channel: 1.0.6
 
+  /qs@6.9.7:
+    resolution: {integrity: sha512-IhMFgUmuNpyRfxA90umL7ByLlgRXu6tIfKPpF5TmcfRLlLCckfP/g3IQmju6jjpu+Hh8rA+2p6A27ZSPOOHdKw==}
+    engines: {node: '>=0.6'}
+    dev: false
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
@@ -2111,3 +2119,9 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
     dev: true
+
+  /ziggy-js@2.3.1:
+    resolution: {integrity: sha512-fq/Dpio4PCg5NVjZrrP/TMBNAO6Epl5nqlT9zO4453+F6QAhsA8hVLoLAjwPMzx7HkejFcrg/XvMPAf2fXAwGA==}
+    dependencies:
+      qs: 6.9.7
+    dev: false

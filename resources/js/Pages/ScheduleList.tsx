@@ -8,10 +8,7 @@ import axios from 'axios'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
 
-const ScheduleList = ({
-  auth,
-  schedules
-}: PageProps & { schedules: any[] }) => {
+const ScheduleList = ({ auth, schedules }: any & { schedules: any[] }) => {
   const getDuration = (schedule: any) => {
     const indexOfFrom = schedule.stops.split(',').indexOf(schedule.from)
     const indexOfTo = schedule.stops.split(',').indexOf(schedule.to)
@@ -111,7 +108,7 @@ const ScheduleList = ({
             </thead>
             <tbody className='text-gray-700 text-sm font-light'>
               {schedules?.length > 0 ? (
-                schedules?.map((schedule, index) => (
+                schedules?.map((schedule: any, index: any) => (
                   <tr
                     key={index}
                     className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}
