@@ -47,44 +47,29 @@ class updateReservationStatus extends Command
             $this->info('No reservations to update.');
             return;
         }
-        //started
-        $reservationsStarted = Reservation::where(DB::raw('CONCAT(booking_date, " ", departure_time)'), '<', $now->toDateTimeString())
-            ->whereIn('status', ['paid'])
-            ->get();
 
-        // Now, update the status for those records to 'started'
-        $reservationsStarted->each(function ($reservation) {
-            $reservation->status = 'started';
-            $reservation->save();
-        });
+        foreach ($reservations as $reservation) {
 
-        if ($reservationsStarted->isEmpty()) {
-            $this->info('No reservations to start.');
+            // Update the bus table to remove reserved seats
+            $schedule = Schedule::find($reservation->schedule_id);
+            if ($schedule) {
+                $bus = Bus::find($schedule->bus_id);
+                if ($bus) {
+                    // Remove the reserved seats
+                    $reservedSeats = explode(',', $bus->reserved_seats);
+                    $cancelledSeats = explode(',', $reservation->reserved_seats);
+
+                    // Get the remaining reserved seats
+                    $remainingSeats = array_diff($reservedSeats, $cancelledSeats);
+                    $bus->reserved_seats = implode(',', $remainingSeats);
+                    $bus->save();
+                } else {
+                    $this->error('Bus not found for reservation ID: ' . $reservation->id);
+                }
+            } else {
+                $this->error('Schedule not found for reservation ID: ' . $reservation->id);
+            }
         }
-
-
-        // foreach ($reservations as $reservation) {
-
-        //     // Update the bus table to remove reserved seats
-        //     $schedule = Schedule::find($reservation->schedule_id);
-        //     if ($schedule) {
-        //         $bus = Bus::find($schedule->bus_id);
-        //         if ($bus) {
-        //             // Remove the reserved seats
-        //             $reservedSeats = explode(',', $bus->reserved_seats);
-        //             $cancelledSeats = explode(',', $reservation->reserved_seats);
-
-        //             // Get the remaining reserved seats
-        //             $remainingSeats = array_diff($reservedSeats, $cancelledSeats);
-        //             $bus->reserved_seats = implode(',', $remainingSeats);
-        //             $bus->save();
-        //         } else {
-        //             $this->error('Bus not found for reservation ID: ' . $reservation->id);
-        //         }
-        //     } else {
-        //         $this->error('Schedule not found for reservation ID: ' . $reservation->id);
-        //     }
-        // }
 
 
         $this->info('Reservation statuses updated successfully.');

@@ -30,6 +30,7 @@ class ReservedSeatsController extends Controller
             $existingReservations = Reservation::where('schedule_id', $scheduleId)
                 ->where('booking_date', $bookingDate)
                 ->where('status', 'paid')
+                // ->where('status', ['paid', 'started'])
                 ->get();  // Get all reservations with 'paid' status
 
             // Filter the reservations based on departure and arrival stop logic
