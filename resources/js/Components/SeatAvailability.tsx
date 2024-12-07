@@ -37,10 +37,11 @@ const SeatAvailability: React.FC<Props> = ({
   useEffect(() => {
     const fetchReservedSeats = async () => {
       try {
-        const booking = await axios.get(`/bookings/${bookingId}`)
+        const response = await axios.get(`/reserved_seats/${bookingId}`)
+        setOccupiedSeats(response?.data?.reserved_seats)
 
+        const booking = await axios.get(`/bookings/${bookingId}`)
         setReservedSeats(booking?.data?.reserved_seats)
-        setOccupiedSeats(booking?.data?.schedule?.bus?.reserved_seats)
       } catch (error) {
         console.error('Error fetching reserved seats:', error)
       }

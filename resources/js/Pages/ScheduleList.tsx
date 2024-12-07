@@ -1,8 +1,4 @@
-import { PageProps } from '@/types'
 import PrimaryButton from '@/Components/PrimaryButton'
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import SeatAvailability from '../Components/SeatAvailability'
 import axios from 'axios'
 
 import toastr from 'toastr'

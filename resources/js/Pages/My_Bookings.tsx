@@ -34,7 +34,7 @@ const MyBookings = ({ auth }: PageProps) => {
     fetchBookings()
 
     // Set up interval to fetch bookings every minute
-    const intervalId = setInterval(fetchBookings, 60000) // 60000 ms = 1 minute
+    const intervalId = setInterval(fetchBookings, 30000) // 60000 ms = 1 minute
 
     // Cleanup function to clear the interval
     return () => clearInterval(intervalId)

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ScheduleSearchController;
 use App\Http\Controllers\BookingDetailsController;
+use App\Http\Controllers\ReservedSeatsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ReservationController;
 
@@ -68,6 +69,8 @@ Route::middleware('auth')->group(function () {
     Route::post('contact', [MessageController::class, 'store'])->name('store');
 
     Route::post('schedule_search', [ScheduleSearchController::class, 'store'])->name('store');
+
+    Route::get('reserved_seats/{schedule_id}', [ReservedSeatsController::class, 'show'])->name('show');
 
     Route::post('bookings', [BookingController::class, 'store'])->name('store');
 

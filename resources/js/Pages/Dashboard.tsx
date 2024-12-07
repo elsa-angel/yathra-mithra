@@ -27,7 +27,7 @@ export default function ({ auth }: PageProps) {
             :  */}
           {currentLocation?.endsWith('schedule_list')
             ? 'Schedules List'
-            : 'Dashboard'}
+            : 'Home'}
         </h2>
       }
     >
@@ -36,9 +36,7 @@ export default function ({ auth }: PageProps) {
           // currentLocation?.endsWith('dashboard')
           //   ? 'Dashboard'
           //   :
-          currentLocation?.endsWith('schedule_list')
-            ? 'Schedules List'
-            : 'Dashboard'
+          currentLocation?.endsWith('schedule_list') ? 'Schedules List' : 'Home'
         }
       />
       {/* <div>

@@ -31,7 +31,7 @@ export default function Authenticated({
                   href={route('dashboard')}
                   active={route().current('dashboard')}
                 >
-                  Dashboard
+                  Home
                 </NavLink>
                 <NavLink
                   href={route('contact')}

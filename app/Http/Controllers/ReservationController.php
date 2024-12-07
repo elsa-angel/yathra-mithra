@@ -140,27 +140,27 @@ class ReservationController extends Controller
                 'status' => 'success',
             ]);
 
-            // Update the bus table to remove reserved seats
-            $schedule = Schedule::find($reservation->schedule_id);
+            // // Update the bus table to remove reserved seats
+            // $schedule = Schedule::find($reservation->schedule_id);
 
-            if ($schedule) {
-                $bus = Bus::find($schedule->bus_id);
+            // if ($schedule) {
+            //     $bus = Bus::find($schedule->bus_id);
 
-                if ($bus) {
-                    // Remove the reserved seats
-                    $reservedSeats = explode(',', $bus->reserved_seats);
-                    $cancelledSeats = explode(',', $reservation->reserved_seats);
+            //     if ($bus) {
+            //         // Remove the reserved seats
+            //         $reservedSeats = explode(',', $bus->reserved_seats);
+            //         $cancelledSeats = explode(',', $reservation->reserved_seats);
 
-                    // Get the remaining reserved seats
-                    $remainingSeats = array_diff($reservedSeats, $cancelledSeats);
-                    $bus->reserved_seats = implode(',', $remainingSeats);
-                    $bus->save();
-                } else {
-                    return response()->json(['error' => 'Bus not found'], 404);
-                }
-            } else {
-                return response()->json(['error' => 'Schedule not found'], 404);
-            }
+            //         // Get the remaining reserved seats
+            //         $remainingSeats = array_diff($reservedSeats, $cancelledSeats);
+            //         $bus->reserved_seats = implode(',', $remainingSeats);
+            //         $bus->save();
+            //     } else {
+            //         return response()->json(['error' => 'Bus not found'], 404);
+            //     }
+            // } else {
+            //     return response()->json(['error' => 'Schedule not found'], 404);
+            // }
 
             \DB::commit();
 

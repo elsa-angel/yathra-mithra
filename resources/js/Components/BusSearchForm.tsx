@@ -18,8 +18,10 @@ export default function BusSearchForm({
   const [formData, setFormData] = useState({
     from: '',
     to: '',
-    date: new Date().toLocaleDateString('en-CA'),
-    time: moment().format('HH:mm')
+    date: '',
+    time: ''
+    // date: new Date().toLocaleDateString('en-CA'),
+    //time: moment().format('HH:mm')
   })
 
   const [formErrors, setFormErrors] = useState({
@@ -56,7 +58,6 @@ export default function BusSearchForm({
     )
 
     if (response?.data) {
-      debugger
       schedules = response.data
       setSchedulesAvailable(true)
       navigate('/schedule_list')
