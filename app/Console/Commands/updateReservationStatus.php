@@ -33,45 +33,41 @@ class updateReservationStatus extends Command
         $timezone = 'Asia/Kolkata';
         $now = Carbon::now()->setTimezone($timezone);
 
+        // First, get the reservations that should be completed
         $reservations = Reservation::where(DB::raw('CONCAT(booking_date, " ", arrival_time)'), '<', $now->toDateTimeString())
-            ->whereIn('status', ['paid'])
+            ->whereIn('status', ['paid', 'started'])
             ->get();
 
-        // Now, update the status for those records
+        // Update status to 'completed' for those reservations
         $reservations->each(function ($reservation) {
             $reservation->status = 'completed';
             $reservation->save();
         });
 
+        // Check if there were any reservations to update to 'completed'
         if ($reservations->isEmpty()) {
             $this->info('No reservations to update.');
-            return;
         }
 
-        foreach ($reservations as $reservation) {
+        // Get reservations that should be marked as 'started'
+        // These should not overlap with the 'completed' ones
+        $reservationsStarted = Reservation::where(DB::raw('CONCAT(booking_date, " ", departure_time)'), '<', $now->toDateTimeString())
+            ->whereIn('status', ['paid'])
+            ->get();
 
-            // Update the bus table to remove reserved seats
-            $schedule = Schedule::find($reservation->schedule_id);
-            if ($schedule) {
-                $bus = Bus::find($schedule->bus_id);
-                if ($bus) {
-                    // Remove the reserved seats
-                    $reservedSeats = explode(',', $bus->reserved_seats);
-                    $cancelledSeats = explode(',', $reservation->reserved_seats);
+        // Update status to 'started' for those reservations
+        $reservationsStarted->each(function ($reservation) {
+            $reservation->status = 'started';
+            $reservation->save();
+        });
 
-                    // Get the remaining reserved seats
-                    $remainingSeats = array_diff($reservedSeats, $cancelledSeats);
-                    $bus->reserved_seats = implode(',', $remainingSeats);
-                    $bus->save();
-                } else {
-                    $this->error('Bus not found for reservation ID: ' . $reservation->id);
-                }
-            } else {
-                $this->error('Schedule not found for reservation ID: ' . $reservation->id);
-            }
+        // Check if there were any reservations to update to 'started'
+        if ($reservationsStarted->isEmpty()) {
+            $this->info('No reservations to start.');
         }
 
-
+        // Final success message
         $this->info('Reservation statuses updated successfully.');
     }
+
 }

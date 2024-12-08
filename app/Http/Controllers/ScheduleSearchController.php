@@ -21,6 +21,10 @@ class ScheduleSearchController extends Controller
         // Retrieve the validated input data
         $data = $request->only(['from', 'to', 'date', 'time']);
 
+        // Convert 'from' and 'to' to lowercase if they are in uppercase
+        $data['from'] = strtolower($data['from']);
+        $data['to'] = strtolower($data['to']);
+
         $dayOfWeek = Carbon::parse($data['date'])->format('l'); // Get the day name
 
         $schedules = Schedule::where(function ($query) use ($data) {
