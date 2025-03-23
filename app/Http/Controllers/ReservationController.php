@@ -48,21 +48,21 @@ class ReservationController extends Controller
         ]);
 
         // Update the bus table with reserved seats
-        $schedule = Schedule::find($request->schedule_id);
+        // $schedule = Schedule::find($request->schedule_id);
 
-        if ($schedule) {
-            $bus = Bus::find($schedule->bus_id);
+        // if ($schedule) {
+        //     $bus = Bus::find($schedule->bus_id);
 
-            if ($bus) {
-                // Calculate the new reserved seats
-                $bus->reserved_seats .= ',' . $request->reserved_seats; // Adjust this as needed for your format
-                $bus->save();
-            } else {
-                return response()->json(['error' => 'Bus not found'], 404);
-            }
-        } else {
-            return response()->json(['error' => 'Schedule not found'], 404);
-        }
+        //     if ($bus) {
+        //         // Calculate the new reserved seats
+        //         $bus->reserved_seats .= ',' . $request->reserved_seats; // Adjust this as needed for your format
+        //         $bus->save();
+        //     } else {
+        //         return response()->json(['error' => 'Bus not found'], 404);
+        //     }
+        // } else {
+        //     return response()->json(['error' => 'Schedule not found'], 404);
+        // }
 
         // // Send Email
 

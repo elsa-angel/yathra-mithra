@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Booking;
 use App\Models\Reservation;
-use App\Models\Schedule;  // Add the Schedule model
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 
 class ReservedSeatsController extends Controller
@@ -29,18 +29,15 @@ class ReservedSeatsController extends Controller
             // Find existing reserved seats from the Reservation table for the same schedule and booking date
             $existingReservations = Reservation::where('schedule_id', $scheduleId)
                 ->where('booking_date', $bookingDate)
-                // ->where('status', 'paid')
-                ->whereIn('status', ['paid', 'started'])
-                ->get();  // Get all reservations with 'paid' status
+                ->whereIn('status', ['paid', 'started']) // Only considering 'paid' or 'started' reservations
+                ->get();
 
             // Filter the reservations based on departure and arrival stop logic
             $filteredReservations = $existingReservations->filter(function ($reservation) use ($departureStop, $arrivalStop, $stops) {
                 // Split the stops from the reservation and the current booking into arrays
-                // The stops are already available in the 'stops' array from the Schedule model
                 $departureIndex = array_search($reservation->departure_stop, $stops);
                 $arrivalIndex = array_search($reservation->arrival_stop, $stops);
 
-                // Get indices for the current booking's departure and arrival stops
                 $currentDepartureIndex = array_search($departureStop, $stops);
                 $currentArrivalIndex = array_search($arrivalStop, $stops);
 
@@ -51,23 +48,32 @@ class ReservedSeatsController extends Controller
                 //     $currentDepartureIndex,
                 //     $currentArrivalIndex,
 
+
                 //     !($currentDepartureIndex >= $arrivalIndex || $currentArrivalIndex <= $departureIndex)
                 // );
 
-                // Check if the departure and arrival stop conditions match
-                return !($currentDepartureIndex >= $arrivalIndex || $currentArrivalIndex <= $departureIndex);
 
-                // return !($currentDepartureIndex <= $departureIndex || $currentArrivalIndex >= $arrivalIndex);
+                // Check if the reservation overlaps with the current booking's departure and arrival stops
+                return !($currentDepartureIndex >= $arrivalIndex || $currentArrivalIndex <= $departureIndex);
             });
 
             // Get reserved seats for the filtered reservations
             $reservedSeats = $filteredReservations->pluck('reserved_seats')->toArray();
 
-            // Return the result (or further process as necessary)
+            // Now, block the reserved seats of other users by combining the reserved seats for this schedule
+            $blockedSeats = [];
+            foreach ($reservedSeats as $seats) {
+                $blockedSeats = array_merge($blockedSeats, explode(',', $seats));  // Merge each reserved seat from different users
+            }
+
+            // Remove duplicate seat numbers, ensuring each seat is blocked only once
+            $blockedSeats = array_unique($blockedSeats);
+
+            // Return the result including the blocked seats
             return response()->json([
                 'schedule_id' => $scheduleId,
                 'booking_date' => $bookingDate,
-                'reserved_seats' => $reservedSeats
+                'reserved_seats' => $blockedSeats,  // Return blocked (reserved) seats for this booking
             ]);
 
         } catch (ModelNotFoundException $e) {

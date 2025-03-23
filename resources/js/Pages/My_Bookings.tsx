@@ -41,8 +41,8 @@ const MyBookings = ({ auth }: PageProps) => {
   }, [])
 
   const handleCancelBooking = async (bookingId: number) => {
-    setBookingIdToCancel(bookingId) // Set the booking ID to cancel
-    setShowConfirm(true) // Show confirmation dialog
+    setBookingIdToCancel(bookingId) 
+    setShowConfirm(true) 
   }
   const handleConfirmCancellation = async () => {
     if (bookingIdToCancel) {
